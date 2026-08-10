@@ -8,19 +8,41 @@ Path:
 =========================================
 */
 
+const SESSION_COOKIE_NAME = "mosque_admin_session";
+
+// Admin session lasts for 8 hours.
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 8;
+
+
+/*
+=========================================
+POST /api/login
+=========================================
+*/
 
 export async function onRequestPost(context) {
 
     try {
 
-        /*
-        =========================================
-        قراءة بيانات تسجيل الدخول المرسلة
-        من التطبيق
-        =========================================
-        */
+        let body;
 
-        const body = await context.request.json();
+        try {
+
+            body = await context.request.json();
+
+        }
+        catch {
+
+            return jsonResponse(
+                {
+                    success: false,
+                    message: "بيانات تسجيل الدخول غير صالحة."
+                },
+                400
+            );
+
+        }
+
 
         const username =
             String(body.username || "").trim();
@@ -31,7 +53,7 @@ export async function onRequestPost(context) {
 
         /*
         =========================================
-        التحقق من أن الحقول ليست فارغة
+        Validate input
         =========================================
         */
 
@@ -50,10 +72,8 @@ export async function onRequestPost(context) {
 
         /*
         =========================================
-        بيانات المدير الأول
-
-        لن تكون كلمات المرور داخل الكود.
-        سيتم وضعها لاحقاً داخل Cloudflare Secrets.
+        Read admin credentials from
+        Cloudflare Secrets
         =========================================
         */
 
@@ -63,23 +83,19 @@ export async function onRequestPost(context) {
         const admin1Password =
             context.env.ADMIN1_PASSWORD;
 
-
-        /*
-        =========================================
-        بيانات المدير الثاني
-        =========================================
-        */
-
         const admin2Username =
             context.env.ADMIN2_USERNAME;
 
         const admin2Password =
             context.env.ADMIN2_PASSWORD;
 
+        const sessionSecret =
+            context.env.SESSION_SECRET;
+
 
         /*
         =========================================
-        التأكد من أن Secrets تم إعدادها
+        Make sure Cloudflare Secrets exist
         =========================================
         */
 
@@ -87,7 +103,8 @@ export async function onRequestPost(context) {
             !admin1Username ||
             !admin1Password ||
             !admin2Username ||
-            !admin2Password
+            !admin2Password ||
+            !sessionSecret
         ) {
 
             return jsonResponse(
@@ -103,7 +120,7 @@ export async function onRequestPost(context) {
 
         /*
         =========================================
-        التحقق من المدير الأول
+        Check Admin 1
         =========================================
         */
 
@@ -114,7 +131,7 @@ export async function onRequestPost(context) {
 
         /*
         =========================================
-        التحقق من المدير الثاني
+        Check Admin 2
         =========================================
         */
 
@@ -125,7 +142,7 @@ export async function onRequestPost(context) {
 
         /*
         =========================================
-        إذا كانت البيانات غير صحيحة
+        Reject invalid credentials
         =========================================
         */
 
@@ -144,9 +161,49 @@ export async function onRequestPost(context) {
 
         /*
         =========================================
-        تسجيل الدخول نجح
+        Create signed admin session
+        =========================================
+        */
 
-        لاحقاً سنضيف Session آمنة.
+        const expiresAt =
+            Date.now() +
+            (SESSION_MAX_AGE_SECONDS * 1000);
+
+
+        const sessionPayload = {
+
+            username: username,
+
+            role: "admin",
+
+            exp: expiresAt
+
+        };
+
+
+        const sessionToken =
+            await createSignedSession(
+                sessionPayload,
+                sessionSecret
+            );
+
+
+        /*
+        =========================================
+        Create secure HttpOnly cookie
+        =========================================
+        */
+
+        const sessionCookie =
+            buildSessionCookie(
+                sessionToken,
+                SESSION_MAX_AGE_SECONDS
+            );
+
+
+        /*
+        =========================================
+        Successful login
         =========================================
         */
 
@@ -157,11 +214,20 @@ export async function onRequestPost(context) {
                 username: username,
                 message: "تم تسجيل الدخول بنجاح."
             },
-            200
+            200,
+            {
+                "Set-Cookie": sessionCookie
+            }
         );
 
     }
     catch (error) {
+
+        console.error(
+            "MOSQUECLOCK login error:",
+            error
+        );
+
 
         return jsonResponse(
             {
@@ -178,7 +244,8 @@ export async function onRequestPost(context) {
 
 /*
 =========================================
-منع GET على Login API
+GET /api/login
+GET requests are not allowed
 =========================================
 */
 
@@ -197,24 +264,196 @@ export function onRequestGet() {
 
 /*
 =========================================
-إنشاء JSON Response
+Create signed session token
 =========================================
 */
 
-function jsonResponse(data, status) {
+async function createSignedSession(
+    payload,
+    secret
+) {
+
+    const encoder =
+        new TextEncoder();
+
+
+    const payloadText =
+        JSON.stringify(payload);
+
+
+    const payloadBytes =
+        encoder.encode(payloadText);
+
+
+    const encodedPayload =
+        base64UrlEncode(payloadBytes);
+
+
+    const signature =
+        await createHmacSignature(
+            encodedPayload,
+            secret
+        );
+
+
+    return (
+        encodedPayload +
+        "." +
+        signature
+    );
+
+}
+
+
+/*
+=========================================
+Create HMAC-SHA256 signature
+=========================================
+*/
+
+async function createHmacSignature(
+    data,
+    secret
+) {
+
+    const encoder =
+        new TextEncoder();
+
+
+    const key =
+        await crypto.subtle.importKey(
+            "raw",
+            encoder.encode(secret),
+            {
+                name: "HMAC",
+                hash: "SHA-256"
+            },
+            false,
+            [
+                "sign"
+            ]
+        );
+
+
+    const signatureBuffer =
+        await crypto.subtle.sign(
+            "HMAC",
+            key,
+            encoder.encode(data)
+        );
+
+
+    return base64UrlEncode(
+        new Uint8Array(
+            signatureBuffer
+        )
+    );
+
+}
+
+
+/*
+=========================================
+Convert bytes to Base64 URL format
+=========================================
+*/
+
+function base64UrlEncode(bytes) {
+
+    let binary = "";
+
+
+    for (
+        let i = 0;
+        i < bytes.length;
+        i++
+    ) {
+
+        binary +=
+            String.fromCharCode(
+                bytes[i]
+            );
+
+    }
+
+
+    return btoa(binary)
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/g, "");
+
+}
+
+
+/*
+=========================================
+Build secure session cookie
+=========================================
+*/
+
+function buildSessionCookie(
+    token,
+    maxAge
+) {
+
+    return [
+        `${SESSION_COOKIE_NAME}=${token}`,
+        "Path=/",
+        "HttpOnly",
+        "Secure",
+        "SameSite=Strict",
+        `Max-Age=${maxAge}`
+    ].join("; ");
+
+}
+
+
+/*
+=========================================
+JSON response helper
+=========================================
+*/
+
+function jsonResponse(
+    data,
+    status,
+    extraHeaders = {}
+) {
+
+    const headers =
+        new Headers();
+
+
+    headers.set(
+        "Content-Type",
+        "application/json; charset=UTF-8"
+    );
+
+
+    headers.set(
+        "Cache-Control",
+        "no-store"
+    );
+
+
+    for (
+        const [name, value]
+        of Object.entries(extraHeaders)
+    ) {
+
+        headers.set(
+            name,
+            value
+        );
+
+    }
+
 
     return new Response(
         JSON.stringify(data),
         {
             status: status,
-
-            headers: {
-                "Content-Type":
-                    "application/json; charset=UTF-8",
-
-                "Cache-Control":
-                    "no-store"
-            }
+            headers: headers
         }
     );
 
