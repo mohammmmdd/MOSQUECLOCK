@@ -534,8 +534,6 @@ function cleanApiTime(time) {
     );
 
 }
-
-
 /* =========================================
    تحديث الأذان من الإنترنت
    ========================================= */
@@ -1474,8 +1472,6 @@ function padNumber(
     );
 
 }
-
-
 /* =========================================
    أحداث الإعدادات
    ========================================= */
@@ -1580,86 +1576,134 @@ function setupSettingsEvents() {
    فتح الإعدادات
    ========================================= */
 
-function openSettings() {
+async function openSettings() {
 
-    setInputValue(
-        "settingMosqueName",
-        generalSettings.mosqueName
-    );
+    try {
 
-
-    setInputValue(
-        "settingMosqueSubtitle",
-        generalSettings.mosqueSubtitle
-    );
-
-
-    setInputValue(
-        "settingDhikrLine1",
-        generalSettings.dhikrLine1
-    );
+        const response =
+            await fetch(
+                "/api/session",
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
 
 
-    setInputValue(
-        "settingDhikrLine2",
-        generalSettings.dhikrLine2
-    );
+        const session =
+            await response.json();
 
 
-    setInputValue(
-        "settingHijriOffset",
-        String(
-            generalSettings.hijriOffset
-        )
-    );
+        if (
+            !response.ok
+            ||
+            !session.authenticated
+            ||
+            session.role !== "admin"
+        ) {
+
+            alert(
+                "هذه الإعدادات متاحة للمشرفين فقط."
+            );
+
+            return;
+
+        }
 
 
-    setInputValue(
-        "settingLocationName",
-        locationSettings.locationName
-    );
-
-
-    setInputValue(
-        "settingLatitude",
-        locationSettings.latitude
-    );
-
-
-    setInputValue(
-        "settingLongitude",
-        locationSettings.longitude
-    );
-
-
-    setInputValue(
-        "settingCalculationMethod",
-        String(
-            locationSettings.calculationMethod
-        )
-    );
-
-
-    document.getElementById(
-        "settingAutoPrayerTimes"
-    ).checked =
-        Boolean(
-            locationSettings.autoPrayerTimes
+        setInputValue(
+            "settingMosqueName",
+            generalSettings.mosqueName
         );
 
 
-    fillPrayerSettingsForm();
+        setInputValue(
+            "settingMosqueSubtitle",
+            generalSettings.mosqueSubtitle
+        );
 
-    renderAdsList();
 
-    updateLastUpdateDisplay();
+        setInputValue(
+            "settingDhikrLine1",
+            generalSettings.dhikrLine1
+        );
 
 
-    document.getElementById(
-        "settingsModal"
-    ).classList.remove(
-        "hidden"
-    );
+        setInputValue(
+            "settingDhikrLine2",
+            generalSettings.dhikrLine2
+        );
+
+
+        setInputValue(
+            "settingHijriOffset",
+            String(
+                generalSettings.hijriOffset
+            )
+        );
+
+
+        setInputValue(
+            "settingLocationName",
+            locationSettings.locationName
+        );
+
+
+        setInputValue(
+            "settingLatitude",
+            locationSettings.latitude
+        );
+
+
+        setInputValue(
+            "settingLongitude",
+            locationSettings.longitude
+        );
+
+
+        setInputValue(
+            "settingCalculationMethod",
+            String(
+                locationSettings.calculationMethod
+            )
+        );
+
+
+        document.getElementById(
+            "settingAutoPrayerTimes"
+        ).checked =
+            Boolean(
+                locationSettings.autoPrayerTimes
+            );
+
+
+        fillPrayerSettingsForm();
+
+        renderAdsList();
+
+        updateLastUpdateDisplay();
+
+
+        document.getElementById(
+            "settingsModal"
+        ).classList.remove(
+            "hidden"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "MOSQUECLOCK admin session check failed:",
+            error
+        );
+
+
+        alert(
+            "تعذر التحقق من صلاحية المشرف."
+        );
+
+    }
 
 }
 
@@ -2084,8 +2128,6 @@ function resetPrayerSettings() {
     fillPrayerSettingsForm();
 
 }
-
-
 /* =========================================
    الإعلانات
    ========================================= */
@@ -2574,7 +2616,6 @@ function renderAdsList() {
                     ad.enabled =
                         !ad.enabled;
 
-
                     saveAds();
 
                     renderAdsList();
@@ -2657,8 +2698,6 @@ function renderAdsList() {
     );
 
 }
-
-
 /* =========================================
    الاتصال
    ========================================= */
