@@ -1,0 +1,872 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    direction: rtl;
+}
+
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+    font-family:
+        Tahoma,
+        Arial,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #e9dfc9 0%,
+            #faf7ef 45%,
+            #efe7d7 100%
+        );
+
+    color: #3e352a;
+}
+
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+.app-container {
+    width: 100%;
+    max-width: 620px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    padding:
+        24px
+        18px
+        40px;
+}
+
+
+.header {
+    position: relative;
+
+    text-align: center;
+
+    padding-top: 5px;
+
+    margin-bottom: 25px;
+}
+
+
+.mosque-logo {
+    width: 105px;
+    height: 105px;
+
+    display: block;
+
+    margin:
+        0 auto
+        12px;
+
+    object-fit: cover;
+
+    border-radius: 30px;
+
+    border:
+        3px solid
+        #c9a34b;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.18);
+}
+
+
+.header h1 {
+    color: #71531f;
+
+    font-size: 31px;
+
+    margin-bottom: 5px;
+}
+
+
+.subtitle {
+    color: #8a7b62;
+
+    font-size: 17px;
+}
+
+
+.settings-button {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border: 0;
+
+    border-radius: 15px;
+
+    background: white;
+
+    font-size: 23px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0, 0, 0, 0.10);
+}
+
+
+.date-section {
+    text-align: center;
+
+    margin-bottom: 10px;
+}
+
+
+.day-name {
+    color: #9d711c;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+
+.date-text {
+    margin-top: 5px;
+
+    color: #6a5f50;
+
+    font-size: 16px;
+}
+
+
+.hijri {
+    color: #8a682c;
+
+    font-weight: bold;
+}
+
+
+.clock-section {
+    padding:
+        18px
+        4px;
+
+    text-align: center;
+}
+
+
+.current-time {
+    direction: ltr;
+
+    color: #295e70;
+
+    font-size:
+        clamp(
+            48px,
+            14vw,
+            78px
+        );
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+.next-prayer-card {
+    margin:
+        12px
+        0
+        22px;
+
+    padding:
+        22px
+        16px;
+
+    border-radius: 26px;
+
+    color: white;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #9b7934,
+            #76551d
+        );
+
+    box-shadow:
+        0 10px 28px
+        rgba(92, 68, 26, 0.23);
+}
+
+
+.next-prayer-title {
+    font-size: 16px;
+
+    opacity: 0.9;
+}
+
+
+.next-prayer-name {
+    margin-top: 6px;
+
+    font-size: 32px;
+
+    font-weight: bold;
+}
+
+
+.next-prayer-time {
+    direction: ltr;
+
+    margin:
+        5px
+        0
+        10px;
+
+    font-size: 44px;
+
+    font-weight: bold;
+}
+
+
+.countdown-label {
+    font-size: 14px;
+
+    opacity: 0.85;
+}
+
+
+.countdown {
+    direction: ltr;
+
+    margin-top: 5px;
+
+    font-size: 28px;
+
+    font-weight: bold;
+}
+
+
+.prayers-section {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.prayer-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding:
+        17px
+        15px;
+
+    background:
+        rgba(255, 255, 255, 0.84);
+
+    border:
+        1px solid
+        rgba(138, 106, 45, 0.18);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 16px
+        rgba(0, 0, 0, 0.05);
+}
+
+
+.prayer-name {
+    min-width: 70px;
+
+    color: #705221;
+
+    font-size: 20px;
+
+    font-weight: bold;
+}
+
+
+.prayer-times {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+}
+
+
+.prayer-times strong {
+    direction: ltr;
+
+    color: #3c5060;
+
+    font-size: 17px;
+}
+
+
+.label {
+    color: #887d6b;
+
+    font-size: 12px;
+}
+
+
+.separator {
+    color: #c1b59f;
+}
+
+
+.ad-section {
+    margin-top: 22px;
+
+    padding:
+        22px
+        18px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f1eadc
+        );
+
+    border:
+        2px solid
+        rgba(138, 106, 45, 0.22);
+
+    border-radius: 23px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.08);
+}
+
+
+.ad-label {
+    display: inline-block;
+
+    margin-bottom: 10px;
+
+    padding:
+        5px
+        14px;
+
+    border-radius: 30px;
+
+    color: white;
+
+    background: #89692c;
+
+    font-size: 13px;
+}
+
+
+.ad-title {
+    margin-bottom: 8px;
+
+    color: #6f5221;
+
+    font-size: 24px;
+}
+
+
+.ad-text {
+    color: #4e4941;
+
+    font-size: 18px;
+
+    line-height: 1.9;
+
+    white-space: pre-line;
+}
+
+
+.ad-counter {
+    margin-top: 10px;
+
+    color: #918572;
+
+    font-size: 12px;
+}
+
+
+.message-card {
+    margin-top: 24px;
+
+    padding:
+        22px
+        15px;
+
+    text-align: center;
+
+    border-radius: 22px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    border:
+        1px solid
+        rgba(138, 106, 45, 0.15);
+}
+
+
+.message-card p {
+    margin:
+        6px
+        0;
+
+    color: #63758c;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    line-height: 1.8;
+}
+
+
+.install-section {
+    margin-top: 24px;
+
+    text-align: center;
+}
+
+
+.install-button {
+    width: 100%;
+
+    padding:
+        16px
+        18px;
+
+    border: none;
+
+    border-radius: 17px;
+
+    color: white;
+
+    background: #295e70;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+
+.ios-instructions {
+    margin-top: 12px;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    background: white;
+
+    color: #62584c;
+
+    font-size: 14px;
+
+    line-height: 1.9;
+}
+
+
+footer {
+    margin-top: 28px;
+
+    text-align: center;
+
+    color: #928777;
+
+    font-size: 13px;
+}
+
+
+.settings-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 18px;
+
+    background:
+        rgba(0, 0, 0, 0.58);
+}
+
+
+.settings-panel {
+    width: 100%;
+
+    max-width: 560px;
+
+    max-height: 92vh;
+
+    overflow-y: auto;
+
+    padding: 22px;
+
+    border-radius: 24px;
+
+    background: #f8f4ea;
+}
+
+
+.settings-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.settings-header h2 {
+    color: #705321;
+
+    font-size: 22px;
+}
+
+
+.close-button {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #e4dccd;
+
+    font-size: 18px;
+}
+
+
+.settings-section-title {
+    margin:
+        25px
+        0
+        12px;
+
+    padding-bottom: 8px;
+
+    color: #705321;
+
+    border-bottom:
+        2px solid
+        rgba(138, 106, 45, 0.20);
+}
+
+
+.general-settings-card,
+.setting-prayer,
+.ads-form {
+    padding: 15px;
+
+    border-radius: 17px;
+
+    background: white;
+}
+
+
+.setting-prayer {
+    margin-bottom: 12px;
+}
+
+
+.setting-prayer h3 {
+    margin-bottom: 10px;
+
+    color: #795b24;
+}
+
+
+.general-settings-card label,
+.setting-prayer label,
+.ads-form label {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-top: 10px;
+
+    font-size: 15px;
+}
+
+
+.general-settings-card input,
+.general-settings-card select,
+.setting-prayer input,
+.ads-form input,
+.ads-form textarea {
+    width: 100%;
+
+    padding: 11px;
+
+    border:
+        1px solid
+        #d8cfbd;
+
+    border-radius: 10px;
+
+    background: white;
+
+    font-size: 16px;
+}
+
+
+.add-ad-button,
+.save-button,
+.reset-button {
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+
+.add-ad-button {
+    margin-top: 15px;
+
+    color: white;
+
+    background: #89692c;
+}
+
+
+.save-button {
+    margin-top: 15px;
+
+    color: white;
+
+    background: #295e70;
+}
+
+
+.reset-button {
+    margin-top: 9px;
+
+    color: #504638;
+
+    background: #e4dccd;
+}
+
+
+.ads-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.ad-item {
+    padding: 15px;
+
+    border-radius: 15px;
+
+    background: white;
+
+    border:
+        1px solid
+        rgba(138, 106, 45, 0.16);
+}
+
+
+.ad-item h4 {
+    color: #705321;
+
+    margin-bottom: 7px;
+}
+
+
+.ad-item p {
+    color: #5c554b;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.ad-dates {
+    margin-top: 8px;
+
+    color: #8c806f;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+.ad-actions {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+
+.ad-actions button {
+    flex: 1;
+
+    padding: 9px;
+
+    border: none;
+
+    border-radius: 9px;
+}
+
+
+.toggle-ad-button {
+    color: white;
+
+    background: #295e70;
+}
+
+
+.delete-ad-button {
+    color: #493f33;
+
+    background: #ddd4c4;
+}
+
+
+@media (max-width: 430px) {
+
+    .app-container {
+        padding:
+            18px
+            12px
+            35px;
+    }
+
+
+    .mosque-logo {
+        width: 92px;
+        height: 92px;
+
+        border-radius: 26px;
+    }
+
+
+    .header h1 {
+        font-size: 27px;
+    }
+
+
+    .current-time {
+        font-size: 50px;
+    }
+
+
+    .next-prayer-name {
+        font-size: 28px;
+    }
+
+
+    .next-prayer-time {
+        font-size: 39px;
+    }
+
+
+    .prayer-row {
+        padding:
+            15px
+            11px;
+    }
+
+
+    .prayer-name {
+        min-width: 55px;
+
+        font-size: 18px;
+    }
+
+
+    .ad-title {
+        font-size: 21px;
+    }
+
+
+    .ad-text {
+        font-size: 16px;
+    }
+
+}
