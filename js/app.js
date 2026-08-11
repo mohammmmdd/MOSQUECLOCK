@@ -247,7 +247,7 @@ function applyGeneralSettings() {
 
     setText(
         "dhikrLine1",
-        generalSettings.dhikrLine1
+        generalSettings.dhikrLine1s
     );
 
 
