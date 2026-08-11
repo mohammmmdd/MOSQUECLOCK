@@ -261,7 +261,56 @@ function applyGeneralSettings() {
         generalSettings.mosqueName;
 
 }
+async function saveSharedSettings() {
 
+    const sharedSettings = {
+
+        generalSettings:
+            generalSettings,
+
+        locationSettings:
+            locationSettings,
+
+        prayerTimes:
+            prayerTimes,
+
+        ads:
+            ads
+
+    };
+
+
+    const response =
+        await fetch(
+            "/api/settings",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(
+                        sharedSettings
+                    )
+            }
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Failed to save shared settings."
+        );
+
+    }
+
+
+    return await response.json();
+
+}
 
 /* =========================================
    إعدادات الموقع
@@ -1844,7 +1893,7 @@ function closeSettings() {
    حفظ الإعدادات العامة
    ========================================= */
 
-function saveGeneralSettingsFromForm() {
+async function saveGeneralSettingsFromForm() {
 
     const mosqueName =
         getInputValue(
@@ -1863,6 +1912,11 @@ function saveGeneralSettingsFromForm() {
         return;
 
     }
+
+
+    const previousGeneralSettings = {
+        ...generalSettings
+    };
 
 
     generalSettings = {
@@ -1903,20 +1957,41 @@ function saveGeneralSettingsFromForm() {
     };
 
 
-    saveGeneralSettings();
+    try {
 
-    applyGeneralSettings();
+        await saveSharedSettings();
 
-    updateClock();
+        saveGeneralSettings();
+
+        applyGeneralSettings();
+
+        updateClock();
 
 
-    alert(
-        "تم حفظ الإعدادات العامة."
-    );
+        alert(
+            "تم حفظ الإعدادات العامة ومزامنتها."
+        );
+
+    }
+    catch (error) {
+
+        generalSettings =
+            previousGeneralSettings;
+
+
+        console.error(
+            "Shared settings save failed:",
+            error
+        );
+
+
+        alert(
+            "تعذر حفظ الإعدادات على الخادم."
+        );
+
+    }
 
 }
-
-
 /* =========================================
    حفظ الموقع
    ========================================= */
