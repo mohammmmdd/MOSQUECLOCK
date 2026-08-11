@@ -129,6 +129,8 @@ let deferredInstallPrompt =
 document.addEventListener(
     "DOMContentLoaded",
     async function () {
+        
+await loadSharedSettings();
 
         applyGeneralSettings();
 
@@ -311,7 +313,111 @@ async function saveSharedSettings() {
     return await response.json();
 
 }
+async function loadSharedSettings() {
 
+    try {
+
+        const response =
+            await fetch(
+                "/api/settings",
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            return false;
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            !result.success
+            ||
+            !result.settings
+        ) {
+
+            return false;
+
+        }
+
+
+        const sharedSettings =
+            result.settings;
+
+
+        if (sharedSettings.generalSettings) {
+
+            generalSettings = {
+                ...defaultGeneralSettings,
+                ...sharedSettings.generalSettings
+            };
+
+        }
+
+
+        if (sharedSettings.locationSettings) {
+
+            locationSettings = {
+                ...defaultLocationSettings,
+                ...sharedSettings.locationSettings
+            };
+
+        }
+
+
+        if (sharedSettings.prayerTimes) {
+
+            prayerTimes =
+                sharedSettings.prayerTimes;
+
+        }
+
+
+        if (
+            Array.isArray(
+                sharedSettings.ads
+            )
+        ) {
+
+            ads =
+                sharedSettings.ads;
+
+        }
+
+
+        saveGeneralSettings();
+
+        saveLocationSettings();
+
+        savePrayerTimes();
+
+        saveAds();
+
+
+        return true;
+
+    }
+    catch (error) {
+
+        console.error(
+            "Shared settings load failed:",
+            error
+        );
+
+
+        return false;
+
+    }
+
+}
 /* =========================================
    إعدادات الموقع
    ========================================= */
@@ -1893,7 +1999,7 @@ function closeSettings() {
    حفظ الإعدادات العامة
    ========================================= */
 
-async function saveGeneralSettingsFromForm() {
+function saveGeneralSettingsFromForm() {
 
     const mosqueName =
         getInputValue(
@@ -1912,11 +2018,6 @@ async function saveGeneralSettingsFromForm() {
         return;
 
     }
-
-
-    const previousGeneralSettings = {
-        ...generalSettings
-    };
 
 
     generalSettings = {
@@ -1957,41 +2058,20 @@ async function saveGeneralSettingsFromForm() {
     };
 
 
-    try {
+    saveGeneralSettings();
 
-        await saveSharedSettings();
+    applyGeneralSettings();
 
-        saveGeneralSettings();
-
-        applyGeneralSettings();
-
-        updateClock();
+    updateClock();
 
 
-        alert(
-            "تم حفظ الإعدادات العامة ومزامنتها."
-        );
-
-    }
-    catch (error) {
-
-        generalSettings =
-            previousGeneralSettings;
-
-
-        console.error(
-            "Shared settings save failed:",
-            error
-        );
-
-
-        alert(
-            "تعذر حفظ الإعدادات على الخادم."
-        );
-
-    }
+    alert(
+        "تم حفظ الإعدادات العامة."
+    );
 
 }
+
+
 /* =========================================
    حفظ الموقع
    ========================================= */
