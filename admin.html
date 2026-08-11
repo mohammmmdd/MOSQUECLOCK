@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        تسجيل دخول المشرف
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: #f4efe4;
+            color: #3d2d1f;
+        }
+
+        .login-card {
+            width: min(
+                92%,
+                420px
+            );
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow:
+                0 12px 30px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.12
+                );
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #6f6257;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #cfc6ba;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #8a6a2f;
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        #message {
+            min-height: 24px;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 18px;
+            text-align: center;
+            color: #6d5127;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <main class="login-card">
+
+        <h1>
+            تسجيل دخول المشرف
+        </h1>
+
+        <div class="subtitle">
+            ساعة المسجد
+        </div>
+
+        <form id="loginForm">
+
+            <label for="username">
+                اسم المستخدم
+            </label>
+
+            <input
+                id="username"
+                name="username"
+                type="text"
+                autocomplete="username"
+                required
+            >
+
+            <label for="password">
+                كلمة المرور
+            </label>
+
+            <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button
+                id="loginButton"
+                type="submit"
+            >
+                تسجيل الدخول
+            </button>
+
+        </form>
+
+        <div
+            id="message"
+            aria-live="polite"
+        ></div>
+
+        <a
+            class="back-link"
+            href="/"
+        >
+            العودة إلى ساعة المسجد
+        </a>
+
+    </main>
+
+
+    <script>
+
+        const loginForm =
+            document.getElementById(
+                "loginForm"
+            );
+
+        const loginButton =
+            document.getElementById(
+                "loginButton"
+            );
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        loginForm.addEventListener(
+            "submit",
+            async function (
+                event
+            ) {
+
+                event.preventDefault();
+
+                message.textContent =
+                    "";
+
+                loginButton.disabled =
+                    true;
+
+                loginButton.textContent =
+                    "جاري تسجيل الدخول...";
+
+
+                try {
+
+                    const username =
+                        document
+                            .getElementById(
+                                "username"
+                            )
+                            .value
+                            .trim();
+
+                    const password =
+                        document
+                            .getElementById(
+                                "password"
+                            )
+                            .value;
+
+
+                    const response =
+                        await fetch(
+                            "/api/login",
+                            {
+                                method:
+                                    "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        {
+                                            username:
+                                                username,
+
+                                            password:
+                                                password
+                                        }
+                                    )
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        !response.ok
+                        ||
+                        !result.success
+                    ) {
+
+                        message.textContent =
+                            result.message
+                            ||
+                            "تعذر تسجيل الدخول.";
+
+                        return;
+
+                    }
+
+
+                    window.location.href =
+                        "/";
+
+                }
+                catch (
+                    error
+                ) {
+
+                    console.error(
+                        error
+                    );
+
+                    message.textContent =
+                        "حدث خطأ أثناء تسجيل الدخول.";
+
+                }
+                finally {
+
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "تسجيل الدخول";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
