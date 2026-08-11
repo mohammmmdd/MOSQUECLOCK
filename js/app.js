@@ -137,6 +137,8 @@ document.addEventListener(
         loadPrayerTimes();
 
         setupSettingsEvents();
+        
+        updateSettingsButtonVisibility();
 
         updateClock();
 
@@ -1476,7 +1478,62 @@ function padNumber(
    أحداث الإعدادات
    ========================================= */
 
-function setupSettingsEvents() {
+async function updateSettingsButtonVisibility() {
+
+    const settingsButton =
+        document.getElementById(
+            "settingsButton"
+        );
+
+    if (!settingsButton) {
+        return;
+    }
+
+    settingsButton.classList.add(
+        "hidden"
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/session",
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+        const session =
+            await response.json();
+
+        if (
+            response.ok
+            &&
+            session.authenticated
+            &&
+            session.role === "admin"
+        ) {
+
+            settingsButton.classList.remove(
+                "hidden"
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Settings visibility check failed:",
+            error
+        );
+
+    }
+
+}
+
+   function setupSettingsEvents() {
 
     document.getElementById(
         "settingsButton"
