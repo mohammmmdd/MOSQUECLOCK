@@ -129,7 +129,7 @@ let deferredInstallPrompt =
 document.addEventListener(
     "DOMContentLoaded",
     async function () {
-        
+
 await loadSharedSettings();
 
         applyGeneralSettings();
@@ -3170,3 +3170,73 @@ function getInputValue(
         "";
 
 }
+/* =========================================
+   Phone / PC / Auto View
+========================================= */
+
+function setViewMode(mode) {
+
+    document.body.classList.remove(
+        "phone-view",
+        "pc-view"
+    );
+
+    if (mode === "phone") {
+        document.body.classList.add(
+            "phone-view"
+        );
+    }
+
+    if (mode === "pc") {
+        document.body.classList.add(
+            "pc-view"
+        );
+    }
+
+    localStorage.setItem(
+        "mosqueViewMode",
+        mode
+    );
+}
+
+
+document.getElementById(
+    "autoViewButton"
+).addEventListener(
+    "click",
+    function () {
+        setViewMode("auto");
+    }
+);
+
+
+document.getElementById(
+    "phoneViewButton"
+).addEventListener(
+    "click",
+    function () {
+        setViewMode("phone");
+    }
+);
+
+
+document.getElementById(
+    "pcViewButton"
+).addEventListener(
+    "click",
+    function () {
+        setViewMode("pc");
+    }
+);
+
+
+const savedViewMode =
+    localStorage.getItem(
+        "mosqueViewMode"
+    )
+    || "auto";
+
+
+setViewMode(
+    savedViewMode
+);

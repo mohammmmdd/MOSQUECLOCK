@@ -24,15 +24,20 @@ body {
         "Segoe UI",
         sans-serif;
 
-    background:
-        linear-gradient(
-            180deg,
-            #e9dfc9 0%,
-            #faf7ef 45%,
-            #efe7d7 100%
-        );
+   background-image:
+    linear-gradient(
+        rgba(4, 28, 55, 0.25),
+        rgba(4, 28, 55, 0.25)
+    ),
+    url("../assets/mosque-background.png");
 
-    color: #3e352a;
+background-size: cover;
+background-position: center top;
+background-repeat: no-repeat;
+background-attachment: fixed;
+
+
+    color: #ffffff;
 }
 
 
@@ -869,4 +874,74 @@ footer {
         font-size: 16px;
     }
 
+}
+/* =========================================
+   White text for dark mosque background
+========================================= */
+
+.header h1,
+.subtitle,
+.day-name,
+.date-text,
+.hijri,
+.current-time,
+#locationDisplay {
+    color: #ffffff !important;
+}
+/* =========================================
+   View Switcher
+========================================= */
+
+.view-switcher {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+
+    display: flex;
+    gap: 8px;
+
+    direction: rtl;
+}
+
+.view-switcher button {
+    padding: 9px 14px;
+
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+
+    background: rgba(3, 35, 60, 0.80);
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.view-switcher button:hover {
+    background: #d4af37;
+    color: #082c46;
+}
+/* =========================================
+   Manual Phone / PC View Modes
+========================================= */
+
+/* Phone View */
+body.phone-view .app-container {
+    width: 100%;
+    max-width: 430px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+/* PC View */
+body.pc-view .app-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
