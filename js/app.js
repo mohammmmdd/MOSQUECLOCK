@@ -2400,7 +2400,7 @@ function saveAds() {
 }
 
 
-async function addAd() { {
+async function addAd() { 
 
     const title =
         getInputValue(
