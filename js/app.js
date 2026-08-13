@@ -147,7 +147,37 @@ await loadSharedSettings();
         updateConnectionStatus();
 
         checkIOSDevice();
+        
+document.getElementById(
+    "adhkarButton"
+).addEventListener(
+    "click",
+    function () {
 
+        document.getElementById(
+            "adhkarModal"
+        ).classList.remove(
+            "hidden"
+        );
+
+    }
+);
+
+
+document.getElementById(
+    "closeAdhkarButton"
+).addEventListener(
+    "click",
+    function () {
+
+        document.getElementById(
+            "adhkarModal"
+        ).classList.add(
+            "hidden"
+        );
+
+    }
+);
         renderAdsList();
 
         showCurrentAd();
