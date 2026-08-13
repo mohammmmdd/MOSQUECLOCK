@@ -380,7 +380,12 @@ async function loadSharedSettings() {
 
         }
 
+if (Array.isArray(sharedSettings.ads)) {
 
+    ads =
+        sharedSettings.ads;
+
+}
         if (
             Array.isArray(
                 sharedSettings.ads
@@ -2395,7 +2400,7 @@ function saveAds() {
 }
 
 
-function addAd() {
+async function addAd() { {
 
     const title =
         getInputValue(
@@ -2479,6 +2484,8 @@ function addAd() {
 
 
     saveAds();
+
+await saveSharedSettings();
 
     clearAdForm();
 
@@ -2823,12 +2830,14 @@ function renderAdsList() {
 
 
             toggle.onclick =
-                function () {
+    async function () {
 
-                    ad.enabled =
-                        !ad.enabled;
+        ad.enabled =
+            !ad.enabled;
 
-                    saveAds();
+        saveAds();
+        
+        await saveSharedSettings();
 
                     renderAdsList();
 
@@ -2852,7 +2861,7 @@ function renderAdsList() {
 
 
             remove.onclick =
-                function () {
+                async function () {
 
                     if (
                         !confirm(
@@ -2879,13 +2888,15 @@ function renderAdsList() {
                         );
 
 
-                    saveAds();
+                           saveAds();
 
-                    renderAdsList();
+                         await saveSharedSettings();
 
-                    showCurrentAd();
+                         renderAdsList();
 
-                };
+                        showCurrentAd();
+
+                         };
 
 
             actions.append(
