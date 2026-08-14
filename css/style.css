@@ -1090,3 +1090,33 @@ body.pc-view .app-container {
 
     border-radius: 10px;
 }
+@media (max-width: 600px) {
+
+    .view-switcher {
+        top: 12px;
+        left: 10px;
+        right: 10px;
+
+        gap: 6px;
+
+        justify-content: center;
+    }
+
+    .view-switcher button {
+        min-height: 46px;
+
+        padding: 8px 10px;
+
+        border-radius: 12px;
+
+        font-size: 14px;
+    }
+
+    .settings-button {
+        width: 46px;
+        min-width: 46px;
+        height: 46px;
+
+        font-size: 21px;
+    }
+}
