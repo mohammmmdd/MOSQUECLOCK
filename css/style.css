@@ -1091,7 +1091,9 @@ body.pc-view .app-container {
     border-radius: 10px;
 }
 @media (max-width: 600px) {
-
+.app-container {
+    padding-top: 82px;
+}
     .view-switcher {
         top: 12px;
         left: 10px;
