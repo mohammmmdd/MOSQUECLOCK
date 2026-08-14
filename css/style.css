@@ -123,30 +123,44 @@ button {
 
     font-size: 17px;
 }
-
-
 .settings-button {
-    position: absolute;
+    position: static;
 
-    top: 0;
-    left: 0;
+    width: 58px;
+    min-width: 58px;
+    height: 58px;
 
-    width: 48px;
-    height: 48px;
+    padding: 0;
 
-    border: 0;
+    border: 2px solid #d4af37;
+    border-radius: 16px;
 
-    border-radius: 15px;
+    background: rgba(3, 35, 60, 0.88);
 
-    background: white;
+    color: #ffffff;
 
-    font-size: 23px;
+    font-size: 25px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
 
     box-shadow:
-        0 5px 18px
-        rgba(0, 0, 0, 0.10);
+        0 5px 14px
+        rgba(0, 0, 0, 0.20);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
+.settings-button:hover {
+    background: #d4af37;
+    transform: translateY(-2px);
+}
 
 .date-section {
     text-align: center;
@@ -891,38 +905,51 @@ footer {
 /* =========================================
    View Switcher
 ========================================= */
-
 .view-switcher {
     position: fixed;
-    top: 15px;
-    left: 15px;
+    top: 28px;
+    left: 28px;
     z-index: 1000;
 
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
 
     direction: rtl;
 }
 
 .view-switcher button {
-    padding: 9px 14px;
+    min-height: 58px;
 
-    border: 1px solid #d4af37;
-    border-radius: 10px;
+    padding: 12px 22px;
 
-    background: rgba(3, 35, 60, 0.80);
+    border: 2px solid #d4af37;
+    border-radius: 16px;
+
+    background: rgba(3, 35, 60, 0.88);
 
     color: #ffffff;
 
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 700;
 
     cursor: pointer;
+
+    box-shadow:
+        0 5px 14px
+        rgba(0, 0, 0, 0.20);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .view-switcher button:hover {
     background: #d4af37;
     color: #082c46;
+
+    transform: translateY(-2px);
 }
 /* =========================================
    Manual Phone / PC View Modes
