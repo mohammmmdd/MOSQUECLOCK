@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap');
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,35 +13,16 @@ html {
 
 html,
 body {
-    width: 100%;
-    min-height: 100%;
-}
-
-
-body {
     font-family:
         Tahoma,
         Arial,
         "Segoe UI",
         sans-serif;
 
-   background-image:
-    linear-gradient(
-        rgba(4, 28, 55, 0.25),
-        rgba(4, 28, 55, 0.25)
-    ),
-    url("../assets/mosque-background.png");
-
-background-size: cover;
-background-position: center top;
-background-repeat: no-repeat;
-background-attachment: fixed;
-
+    background: #f7f3e8;
 
     color: #ffffff;
 }
-
-
 button,
 input,
 textarea,
@@ -115,32 +97,33 @@ button {
     font-size: 31px;
 
     margin-bottom: 5px;
-}
-
-
-.subtitle {
+}.subtitle {
     color: #8a7b62;
 
     font-size: 17px;
 }
-.settings-button {
-    position: static;
 
-    width: 58px;
-    min-width: 58px;
-    height: 58px;
+
+.settings-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 20;
+
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
 
     padding: 0;
 
-    border: 2px solid #d4af37;
-    border-radius: 16px;
+    border: 1px solid #b78a2c;
+    border-radius: 9px;
 
-    background: rgba(3, 35, 60, 0.88);
+    background: rgba(255, 252, 246, 0.90);
 
-    color: #ffffff;
+    color: #7a5a20;
 
-    font-size: 25px;
-    font-weight: 700;
+    font-size: 17px;
 
     display: flex;
     align-items: center;
@@ -149,18 +132,20 @@ button {
     cursor: pointer;
 
     box-shadow:
-        0 5px 14px
-        rgba(0, 0, 0, 0.20);
+        0 2px 6px
+        rgba(0, 0, 0, 0.12);
 
     transition:
         background 0.2s ease,
         transform 0.2s ease;
 }
 
+
 .settings-button:hover {
     background: #d4af37;
     transform: translateY(-2px);
 }
+
 
 .date-section {
     text-align: center;
@@ -384,145 +369,80 @@ button {
     color: #c1b59f;
 }
 
-
 .ad-section {
-    margin-top: 22px;
+    margin-top: 10px;
 
     padding:
-        22px
-        18px;
+        10px
+        14px;
 
     text-align: center;
 
     background:
         linear-gradient(
             145deg,
-            #ffffff,
-            #f1eadc
+            rgba(255, 255, 255, 0.94),
+            rgba(241, 234, 220, 0.94)
         );
 
     border:
-        2px solid
+        1px solid
         rgba(138, 106, 45, 0.22);
 
-    border-radius: 23px;
+    border-radius: 15px;
 
     box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.08);
+        0 4px 12px
+        rgba(0, 0, 0, 0.07);
+
+    overflow: hidden;
+
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease;
+        }
+/* =========================================
+   Advertisement Animation
+   ========================================= */
+
+/* Advertisement exits to the left */
+.ad-section.ad-slide-out {
+    opacity: 0;
+    transform: translateX(-35px);
 }
 
 
+/* Next advertisement starts from the right */
+.ad-section.ad-slide-in {
+    opacity: 0;
+    transform: translateX(35px);
+}
+
+
+/* Advertisement label */
 .ad-label {
     display: inline-block;
 
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 
     padding:
-        5px
-        14px;
+        3px
+        10px;
 
-    border-radius: 30px;
+    border-radius: 20px;
 
-    color: white;
+    color: #ffffff;
 
     background: #89692c;
 
-    font-size: 13px;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 
-.ad-title {
-    margin-bottom: 8px;
-
-    color: #6f5221;
-
-    font-size: 24px;
-}
-
-
-.ad-text {
-    color: #4e4941;
-
-    font-size: 18px;
-
-    line-height: 1.9;
-
-    white-space: pre-line;
-}
-
-
-.ad-counter {
-    margin-top: 10px;
-
-    color: #918572;
-
-    font-size: 12px;
-}
-
-
-.message-card {
-    margin-top: 24px;
-
-    padding:
-        22px
-        15px;
-
-    text-align: center;
-
-    border-radius: 22px;
-
-    background:
-        rgba(255, 255, 255, 0.72);
-
-    border:
-        1px solid
-        rgba(138, 106, 45, 0.15);
-}
-
-
-.message-card p {
-    margin:
-        6px
-        0;
-
-    color: #63758c;
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    line-height: 1.8;
-}
-
-
-.install-section {
-    margin-top: 24px;
-
-    text-align: center;
-}
-
-
-.install-button {
-    width: 100%;
-
-    padding:
-        16px
-        18px;
-
-    border: none;
-
-    border-radius: 17px;
-
-    color: white;
-
-    background: #295e70;
-
-    font-size: 16px;
-
-    font-weight: bold;
-}
-
+/* =========================================
+   iOS Instructions
+   ========================================= */
 
 .ios-instructions {
     margin-top: 12px;
@@ -539,7 +459,6 @@ button {
 
     line-height: 1.9;
 }
-
 
 footer {
     margin-top: 28px;
@@ -880,12 +799,12 @@ footer {
 
 
     .ad-title {
-        font-size: 21px;
+        font-size: 14px;
     }
 
 
     .ad-text {
-        font-size: 16px;
+        font-size: 12px;
     }
 
 }
@@ -900,7 +819,7 @@ footer {
 .hijri,
 .current-time,
 #locationDisplay {
-    color: #ffffff !important;
+    color: #17364f !important;
 }
 /* =========================================
    View Switcher
@@ -969,32 +888,68 @@ body.phone-view .app-container {
 body.pc-view .app-container {
     width: 100%;
     max-width: 1200px;
+
     margin-left: auto;
     margin-right: auto;
 }
-.adhkar-button {
+
+
+/* =========================================
+   Bottom Adhkar Buttons
+========================================= */
+.adhkar-actions {
     width: 100%;
-    padding: 18px 20px;
 
-    border: none;
-    border-radius: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
 
-    background: #074a78;
+    margin-top: 8px;
 
-    color: #ffffff !important;
+    direction: rtl;
+}
 
-    font-size: 1.35rem;
+
+.adhkar-action-button {
+    min-height: 42px;
+
+    padding:
+        7px
+        8px;
+
+    border:
+        1px solid
+        rgba(138, 106, 45, 0.28);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 252, 246, 0.92);
+
+    color: #6f5221;
+
+    font-family: inherit;
+    font-size: 12px;
     font-weight: 700;
+
     text-align: center;
 
     cursor: pointer;
 
     box-shadow:
-        0 8px 20px
-        rgba(0, 0, 0, 0.18);
+        0 3px 8px
+        rgba(0, 0, 0, 0.06);
 
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
 }
 
+
+.adhkar-action-button:hover {
+    background: #f3ead6;
+    transform: translateY(-1px);
+}
 .adhkar-modal {
     position: fixed;
     inset: 0;
@@ -1121,4 +1076,484 @@ body.pc-view .app-container {
 
         font-size: 21px;
     }
+}
+/* =========================================
+   Full-screen mosque display
+========================================= */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    max-width: none;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+}
+
+/* Hide Phone / PC / TV buttons */
+#autoViewButton,
+#phoneViewButton,
+#pcViewButton {
+    display: none !important;
+}
+/* =========================================
+   Settings icon - top right
+========================================= */
+
+.view-switcher {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    left: auto;
+
+    z-index: 2000;
+
+    display: flex;
+    justify-content: flex-end;
+
+    width: auto;
+}
+
+.settings-button {
+    width: 26px;
+    min-width: 26px;
+    height: 26px;
+
+    padding: 0;
+
+    border: 2px solid #eceae6;
+    border-radius: 12px;
+
+    background: rgba(244, 245, 244, 0.92);
+
+    color: #ffffff;
+
+    font-size: 21px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* =========================================
+   Main Islamic full-screen frame
+========================================= */
+.mosque-frame {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding:
+        14px
+        14px
+        12px;
+
+    background:
+        linear-gradient(
+            rgba(255, 252, 246, 0.72),
+            rgba(255, 252, 246, 0.72)
+        ),
+        url("../assets/islamic-frame-background.jpg");
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    border:
+        5px solid
+        #dcd1b9;
+
+    border-radius: 28px;
+
+    box-shadow:
+        inset 0 0 0 2px #8dd9a5,
+        inset 0 0 30px rgba(120, 83, 22, 0.14),
+        0 6px 20px rgba(80, 60, 30, 0.10);
+
+    overflow: hidden;
+}
+/* =========================================
+   Prayer table - premium mosque board style
+========================================= */
+
+.prayers-section {
+    width: calc(100% - 28px);
+    margin: 8px 14px 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.prayer-table-header,
+.prayer-row {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+
+    align-items: center;
+
+    text-align: center;
+
+    direction: ltr;
+}
+
+.prayer-table-header {
+    padding: 8px 10px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #8d6425,
+            #6f4b18
+        );
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    border: 1px solid #d7b45e;
+}
+
+.prayer-row {
+    min-height: 48px;
+
+    padding: 8px 10px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 252, 245, 0.93);
+
+    border:
+        1px solid
+        rgba(168, 125, 47, 0.40);
+
+    box-shadow:
+        0 3px 8px
+        rgba(75, 48, 10, 0.08);
+}
+
+.prayer-row strong {
+    direction: ltr;
+
+    color: #243f55;
+
+    font-size: 17px;
+    font-weight: 800;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.prayer-name {
+    min-width: 0;
+
+    color: #7d5820;
+
+    font-size: 18px;
+    font-weight: 800;
+}
+/* =========================================
+   Date + live clock
+========================================= */
+
+.date-section {
+    width: calc(100% - 28px);
+    margin: 10px 14px 0;
+
+    padding: 10px 12px;
+
+    text-align: center;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 252, 245, 0.88);
+
+    border:
+        1px solid
+        rgba(168, 125, 47, 0.35);
+
+    box-shadow:
+        0 4px 12px
+        rgba(75, 48, 10, 0.08);
+}
+
+.day-name {
+    margin: 0 0 3px;
+
+    color: #7d5820 !important;
+
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.date-text {
+    margin-top: 2px;
+
+    color: #5c554b !important;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.hijri {
+    color: #8b672a !important;
+
+    font-weight: 700;
+}
+
+.clock-section {
+    width: calc(100% - 28px);
+    margin: 6px 14px 0;
+
+    padding: 6px 10px;
+
+    text-align: center;
+}
+
+.current-time {
+    direction: ltr;
+
+    color: #71cb92 !important;
+
+    font-size: clamp(30px, 13vw, 50px);
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    line-height: 1.05;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+/* =========================================
+   Highlight upcoming prayer
+   ========================================= */
+
+.prayer-row.next-prayer-active {
+    background: linear-gradient(
+        135deg,
+        #064e3b,
+        #0b6b50
+    );
+
+    border: 2px solid #c9a227;
+    box-shadow:
+        0 0 0 1px rgba(201, 162, 39, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.12);
+
+    border-radius: 10px;
+}
+
+.prayer-row.next-prayer-active strong,
+.prayer-row.next-prayer-active .prayer-name {
+    color: #f8e7a1;
+}
+/* =========================================
+   Dhikr Continuous Reel
+   ========================================= */
+
+.dhikr-reel {
+    width: 100%;
+    height: 38px;
+
+    margin-top: 8px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    background:
+        rgba(255, 252, 246, 0.90);
+
+    border:
+        1px solid
+        rgba(138, 106, 45, 0.25);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 8px
+        rgba(0, 0, 0, 0.05);
+}
+
+
+.dhikr-reel-track {
+    display: flex;
+    align-items: center;
+
+    width: max-content;
+
+    white-space: nowrap;
+
+    gap: 22px;
+
+    color: #6f5221;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    animation:
+        dhikrSlideLeft 22s linear infinite;
+}
+
+
+.dhikr-separator {
+    color: #b78a2c;
+}
+
+
+@keyframes dhikrSlideLeft {
+
+    from {
+        transform: translateX(100vw);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+
+}
+/* Advertisement counter */
+.ad-counter {
+    margin-top: 3px;
+
+    color: #918572;
+
+    font-size: 9px;
+}
+/* =========================================
+   Compact mosque header
+   ========================================= */
+
+.header {
+    display: block !important;
+
+    padding-top: 2px;
+    margin-bottom: 6px;
+
+    text-align: center;
+}
+
+
+.mosque-logo {
+    width: 48px;
+    height: 48px;
+
+    margin:
+        0 auto
+        4px;
+
+    border-radius: 14px;
+
+    border:
+        2px solid
+        #c9a34b;
+
+    box-shadow:
+        0 3px 8px
+        rgba(0, 0, 0, 0.10);
+}
+
+
+.header h1 {
+    margin-bottom: 1px;
+
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+
+.subtitle {
+    font-size: 11px;
+    line-height: 1.2;
+}
+/* Compact current time */
+.current-time {
+    font-size: 30px !important;
+    line-height: 1;
+    margin: 6px 0 !important;
+}
+/* Compact but readable Dhikr reel */
+.dhikr-reel {
+    min-height: 38px !important;
+    height: 38px !important;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 10px !important;
+    margin-top: 6px !important;
+
+    overflow: hidden;
+}
+
+.dhikr-reel-track {
+    font-size: 13px !important;
+    line-height: 1 !important;
+}
+/* =========================================
+   Compact bottom Adhkar buttons
+   ========================================= */
+
+.adhkar-actions {
+    gap: 6px !important;
+    margin-top: 4px !important;
+}
+
+.adhkar-action-button {
+    min-height: 32px !important;
+
+    padding: 4px 6px !important;
+
+    border-radius: 10px !important;
+
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+}
+/* =========================================
+   Minimal Advertisement
+   ========================================= */
+
+.ad-section {
+    margin-top: 4px !important;
+    padding: 3px 8px !important;
+
+    min-height: 26px !important;
+
+    border-radius: 10px !important;
+}
+
+.ad-label {
+    margin: 0 !important;
+
+    padding: 2px 9px !important;
+
+    font-size: 9px !important;
+}
+
+.ad-title,
+.ad-text,
+.ad-counter {
+    display: none !important;
 }

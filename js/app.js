@@ -163,7 +163,20 @@ document.getElementById(
     }
 );
 
+document.getElementById(
+    "afterPrayerAdhkarButton"
+).addEventListener(
+    "click",
+    function () {
 
+        document.getElementById(
+            "afterPrayerAdhkarModal"
+        ).classList.remove(
+            "hidden"
+        );
+
+    }
+);
 document.getElementById(
     "closeAdhkarButton"
 ).addEventListener(
@@ -172,6 +185,20 @@ document.getElementById(
 
         document.getElementById(
             "adhkarModal"
+        ).classList.add(
+            "hidden"
+        );
+
+    }
+);
+document.getElementById(
+    "closeAfterPrayerAdhkarButton"
+).addEventListener(
+    "click",
+    function () {
+
+        document.getElementById(
+            "afterPrayerAdhkarModal"
         ).classList.add(
             "hidden"
         );
@@ -1509,7 +1536,27 @@ function updateNextPrayer(
         "nextPrayerName",
         nextPrayer.name
     );
+document
+    .querySelectorAll(".prayer-row")
+    .forEach((row) => {
 
+        row.classList.remove(
+            "next-prayer-active"
+        );
+
+        if (
+            row.dataset.prayerName
+            ===
+            nextPrayer.name
+        ) {
+
+            row.classList.add(
+                "next-prayer-active"
+            );
+
+        }
+
+    });
 
     setText(
         "nextPrayerTime",
@@ -2730,22 +2777,58 @@ function rotateAds() {
     }
 
 
-    currentAdIndex++;
+    const section =
+        document.getElementById(
+            "adSection"
+        );
 
 
-    if (
-        currentAdIndex
-        >=
-        activeAds.length
-    ) {
-
-        currentAdIndex =
-            0;
-
-    }
+    section.classList.add(
+        "ad-slide-out"
+    );
 
 
-    showCurrentAd();
+    setTimeout(
+        function () {
+
+            currentAdIndex++;
+
+
+            if (
+                currentAdIndex
+                >=
+                activeAds.length
+            ) {
+
+                currentAdIndex =
+                    0;
+
+            }
+
+
+            section.classList.remove(
+                "ad-slide-out"
+            );
+
+
+            section.classList.add(
+                "ad-slide-in"
+            );
+
+
+            showCurrentAd();
+
+
+            void section.offsetWidth;
+
+
+            section.classList.remove(
+                "ad-slide-in"
+            );
+
+        },
+        450
+    );
 
 }
 

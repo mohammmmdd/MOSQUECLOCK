@@ -55,20 +55,19 @@
         🖥️ الكمبيوتر
     </button>
 
-    <button
+ </div>
+
+<main class="app-container">
+
+    <div class="mosque-frame">
+<button
        type="button"
     id="settingsButton"
     class="settings-button"
     aria-label="الإعدادات">
     ⚙️
 </button>
-
- </div>
-
-    <main class="app-container">
-
-        <header class="header">
-
+    <header class="header">
 
             <img src="./assets/icon-192.png"
                  alt="أيقونة المسجد"
@@ -120,204 +119,81 @@
 
         </section>
 
-
-        <section class="next-prayer-card">
-
-            <div class="next-prayer-title">
-                الصلاة القادمة
-            </div>
-
-            <div id="nextPrayerName"
-                 class="next-prayer-name">
-                جاري الحساب...
-            </div>
-
-            <div id="nextPrayerTime"
-                 class="next-prayer-time">
-                --:--
-            </div>
-
-            <div class="countdown-label">
-                الوقت المتبقي
-            </div>
-
-            <div id="countdown"
-                 class="countdown">
-                --:--:--
-            </div>
-
-        </section>
-
-
-        <section class="prayers-section">
-
-            <div class="prayer-row">
-
-                <div class="prayer-name">
-                    الفجر
-                </div>
-
-                <div class="prayer-times">
-
-                    <span class="label">
-                        الأذان
-                    </span>
-
-                    <strong id="fajrAdhan">
-                        --:--
-                    </strong>
-
-                    <span class="separator">
-                        |
-                    </span>
-
-                    <span class="label">
-                        الإقامة
-                    </span>
-
-                    <strong id="fajrIqama">
-                        --:--
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="prayer-row">
-
-                <div class="prayer-name">
-                    الظهر
-                </div>
-
-                <div class="prayer-times">
-
-                    <span class="label">
-                        الأذان
-                    </span>
-
-                    <strong id="dhuhrAdhan">
-                        --:--
-                    </strong>
-
-                    <span class="separator">
-                        |
-                    </span>
-
-                    <span class="label">
-                        الإقامة
-                    </span>
-
-                    <strong id="dhuhrIqama">
-                        --:--
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="prayer-row">
-
-                <div class="prayer-name">
-                    العصر
-                </div>
-
-                <div class="prayer-times">
-
-                    <span class="label">
-                        الأذان
-                    </span>
-
-                    <strong id="asrAdhan">
-                        --:--
-                    </strong>
-
-                    <span class="separator">
-                        |
-                    </span>
-
-                    <span class="label">
-                        الإقامة
-                    </span>
-
-                    <strong id="asrIqama">
-                        --:--
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="prayer-row">
-
-                <div class="prayer-name">
-                    المغرب
-                </div>
-
-                <div class="prayer-times">
-
-                    <span class="label">
-                        الأذان
-                    </span>
-
-                    <strong id="maghribAdhan">
-                        --:--
-                    </strong>
-
-                    <span class="separator">
-                        |
-                    </span>
-
-                    <span class="label">
-                        الإقامة
-                    </span>
-
-                    <strong id="maghribIqama">
-                        --:--
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="prayer-row">
-
-                <div class="prayer-name">
-                    العشاء
-                </div>
-
-                <div class="prayer-times">
-
-                    <span class="label">
-                        الأذان
-                    </span>
-
-                    <strong id="ishaAdhan">
-                        --:--
-                    </strong>
-
-                    <span class="separator">
-                        |
-                    </span>
-
-                    <span class="label">
-                        الإقامة
-                    </span>
-
-                    <strong id="ishaIqama">
-                        --:--
-                    </strong>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
+       <section class="prayers-section">
+
+    <div class="prayer-table-header">
+        <span>الإقامة</span>
+        <span>الصلاة</span>
+        <span>الأذان</span>
+    </div>
+
+   <div class="prayer-row" data-prayer-name="الفجر">
+    <strong id="fajrIqama">--:--</strong>
+    <div class="prayer-name">الفجر</div>
+    <strong id="fajrAdhan">--:--</strong>
+</div>
+
+    <div class="prayer-row" data-prayer-name="الظهر">
+        <strong id="dhuhrIqama">--:--</strong>
+        <div class="prayer-name">الظهر</div>
+        <strong id="dhuhrAdhan">--:--</strong>
+    </div>
+
+    <div class="prayer-row" data-prayer-name="العصر">
+        <strong id="asrIqama">--:--</strong>
+        <div class="prayer-name">العصر</div>
+        <strong id="asrAdhan">--:--</strong>
+    </div>
+
+    <div class="prayer-row" data-prayer-name="المغرب">
+        <strong id="maghribIqama">--:--</strong>
+        <div class="prayer-name">المغرب</div>
+        <strong id="maghribAdhan">--:--</strong>
+    </div>
+
+    <div class="prayer-row" data-prayer-name="العشاء">
+        <strong id="ishaIqama">--:--</strong>
+        <div class="prayer-name">العشاء</div>
+        <strong id="ishaAdhan">--:--</strong>
+    </div>
+
+</section>
+
+<section class="dhikr-reel">
+
+    <div class="dhikr-reel-track">
+
+        <span>
+            سُبْحَانَ اللهِ وَبِحَمْدِهِ
+        </span>
+
+        <span class="dhikr-separator">
+            •
+        </span>
+
+        <span>
+            الْحَمْدُ للهِ
+        </span>
+
+        <span class="dhikr-separator">
+            •
+        </span>
+
+        <span>
+            اللهُ أَكْبَرُ
+        </span>
+
+        <span class="dhikr-separator">
+            •
+        </span>
+
+        <span>
+            لَا إِلَهَ إِلَّا اللهُ
+        </span>
+
+    </div>
+
+</section>
         <section id="adSection"
                  class="ad-section hidden">
 
@@ -339,13 +215,20 @@
 
 </section>
 
-<section class="message-card">
+<section class="adhkar-actions">
+
+    <button
+        type="button"
+        id="afterPrayerAdhkarButton"
+        class="adhkar-action-button">
+        أذكار بعد الصلوات المفروضة
+    </button>
 
     <button
         type="button"
         id="adhkarButton"
-        class="adhkar-button">
-        📖 أذكار الصباح والمساء
+        class="adhkar-action-button">
+        أذكار الصباح والمساء
     </button>
 
 </section>
@@ -367,6 +250,38 @@
         <img src="assets/adhkar-morning-evening.jpg"
              alt="أذكار الصباح والمساء"
              class="adhkar-image">
+
+    </div>
+
+</div>
+<div id="afterPrayerAdhkarModal"
+     class="adhkar-modal hidden">
+
+    <div class="adhkar-modal-content">
+
+        <button
+            type="button"
+            id="closeAfterPrayerAdhkarButton"
+            class="adhkar-close-button">
+            ✕
+        </button>
+
+        <h2 class="adhkar-mosque-name">
+            أذكار بعد الصلوات المفروضة
+        </h2>
+
+        <div class="after-prayer-adhkar-content">
+
+            <p>
+                أَسْتَغْفِرُ الله، أَسْتَغْفِرُ الله، أَسْتَغْفِرُ الله.
+            </p>
+
+            <p>
+                اللّهُـمَّ أَنْـتَ السَّلامُ، وَمِـنْكَ السَّلامُ،
+                تَبارَكْتَ يا ذا الجَـلالِ وَالإِكْـرام.
+            </p>
+
+        </div>
 
     </div>
 
@@ -409,7 +324,7 @@
             </span>
 
         </footer>
-
+</div>
     </main>
 
 
