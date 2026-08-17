@@ -40,12 +40,11 @@ button {
     display: none !important;
 }
 
-
 .app-container {
     width: 100%;
     max-width: 620px;
 
-    min-height: 100vh;
+    min-height: 100dvh;
 
     margin: 0 auto;
 
@@ -54,7 +53,6 @@ button {
         18px
         40px;
 }
-
 
 .header {
     position: relative;
@@ -218,8 +216,8 @@ button {
         22px;
 
     padding:
-        22px
-        16px;
+    clamp(3px, 0.6dvh, 6px)
+    clamp(8px, 3vw, 12px);
 
     border-radius: 26px;
 
@@ -909,13 +907,12 @@ body.pc-view .app-container {
     direction: rtl;
 }
 
-
 .adhkar-action-button {
-    min-height: 42px;
+    min-height: clamp(36px, 6dvh, 42px);
 
     padding:
-        7px
-        8px;
+        clamp(5px, 1dvh, 7px)
+        clamp(6px, 2vw, 8px);
 
     border:
         1px solid
@@ -929,7 +926,7 @@ body.pc-view .app-container {
     color: #6f5221;
 
     font-family: inherit;
-    font-size: 12px;
+    font-size: clamp(10px, 3vw, 12px);
     font-weight: 700;
 
     text-align: center;
@@ -944,7 +941,6 @@ body.pc-view .app-container {
         transform 0.2s ease,
         background 0.2s ease;
 }
-
 
 .adhkar-action-button:hover {
     background: #f3ead6;
@@ -1077,9 +1073,6 @@ body.pc-view .app-container {
         font-size: 21px;
     }
 }
-/* =========================================
-   Full-screen mosque display
-========================================= */
 
 html,
 body {
@@ -1089,13 +1082,12 @@ body {
 }
 
 body {
-    min-height: 100vh;
+    min-height: 100dvh;
 }
-
 .app-container {
     width: 100%;
-    height: 100vh;
-    min-height: 100vh;
+    height: 100dvh;
+    min-height: 100dvh;
     max-width: none;
 
     margin: 0;
@@ -1155,15 +1147,15 @@ body {
     position: relative;
 
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
 
     display: flex;
     flex-direction: column;
 
-    padding:
-        14px
-        14px
-        12px;
+   padding:
+    clamp(8px, 1.8dvh, 14px)
+    clamp(8px, 3vw, 14px)
+    clamp(7px, 1.5dvh, 12px);
 
     background:
         linear-gradient(
@@ -1194,12 +1186,17 @@ body {
 ========================================= */
 
 .prayers-section {
-    width: calc(100% - 28px);
-    margin: 8px 14px 0;
+    width: calc(100% - clamp(16px, 7vw, 28px));
+
+    margin:
+        clamp(5px, 1dvh, 8px)
+        clamp(8px, 3.5vw, 14px)
+        0;
 
     display: flex;
     flex-direction: column;
-    gap: 6px;
+
+    gap: clamp(4px, 0.8dvh, 6px);
 }
 .prayer-table-header,
 .prayer-row {
@@ -1212,9 +1209,10 @@ body {
 
     direction: ltr;
 }
-
 .prayer-table-header {
-    padding: 8px 10px;
+    padding:
+        clamp(6px, 1.2dvh, 8px)
+        clamp(8px, 2.5vw, 10px);
 
     border-radius: 12px;
 
@@ -1227,16 +1225,17 @@ body {
 
     color: #ffffff;
 
-    font-size: 14px;
+    font-size: clamp(12px, 3.5vw, 14px);
     font-weight: 700;
 
     border: 1px solid #d7b45e;
 }
-
 .prayer-row {
-    min-height: 48px;
+    min-height: clamp(42px, 7dvh, 48px);
 
-    padding: 8px 10px;
+    padding:
+        clamp(6px, 1.2dvh, 8px)
+        clamp(8px, 2.5vw, 10px);
 
     border-radius: 12px;
 
@@ -1257,29 +1256,33 @@ body {
 
     color: #243f55;
 
-    font-size: 17px;
+    font-size: clamp(14px, 4.2vw, 17px);
     font-weight: 800;
 
     font-variant-numeric: tabular-nums;
 }
-
 .prayer-name {
     min-width: 0;
 
     color: #7d5820;
 
-    font-size: 18px;
+    font-size: clamp(15px, 4.5vw, 18px);
     font-weight: 800;
 }
 /* =========================================
    Date + live clock
 ========================================= */
-
 .date-section {
-    width: calc(100% - 28px);
-    margin: 10px 14px 0;
+    width: calc(100% - clamp(16px, 7vw, 28px));
 
-    padding: 10px 12px;
+    margin:
+        clamp(6px, 1.2dvh, 10px)
+        clamp(8px, 3.5vw, 14px)
+        0;
+
+    padding:
+        clamp(6px, 1.2dvh, 10px)
+        clamp(8px, 3vw, 12px);
 
     text-align: center;
 
@@ -1296,22 +1299,20 @@ body {
         0 4px 12px
         rgba(75, 48, 10, 0.08);
 }
-
 .day-name {
     margin: 0 0 3px;
 
     color: #7d5820 !important;
 
-    font-size: 16px;
+    font-size: clamp(13px, 4vw, 16px);
     font-weight: 800;
 }
-
 .date-text {
     margin-top: 2px;
 
     color: #5c554b !important;
 
-    font-size: 12px;
+    font-size: clamp(10px, 3vw, 12px);
     font-weight: 500;
 }
 
@@ -1320,12 +1321,17 @@ body {
 
     font-weight: 700;
 }
-
 .clock-section {
-    width: calc(100% - 28px);
-    margin: 6px 14px 0;
+    width: calc(100% - clamp(16px, 7vw, 28px));
 
-    padding: 6px 10px;
+    margin:
+        clamp(3px, 0.8dvh, 6px)
+        clamp(8px, 3.5vw, 14px)
+        0;
+
+    padding:
+        clamp(3px, 0.8dvh, 6px)
+        clamp(6px, 2.5vw, 10px);
 
     text-align: center;
 }
@@ -1371,17 +1377,18 @@ body {
 /* =========================================
    Dhikr Continuous Reel
    ========================================= */
-
 .dhikr-reel {
-    width: 100%;
-    height: 38px;
-
-    margin-top: 8px;
+    min-height: clamp(32px, 5.5dvh, 38px) !important;
+    height: clamp(32px, 5.5dvh, 38px) !important;
 
     display: flex;
     align-items: center;
 
+    padding: 0 clamp(6px, 2vw, 10px) !important;
+    margin-top: clamp(4px, 0.8dvh, 6px) !important;
+
     overflow: hidden;
+
 
     background:
         rgba(255, 252, 246, 0.90);
@@ -1397,7 +1404,6 @@ body {
         rgba(0, 0, 0, 0.05);
 }
 
-
 .dhikr-reel-track {
     display: flex;
     align-items: center;
@@ -1406,17 +1412,16 @@ body {
 
     white-space: nowrap;
 
-    gap: 22px;
+    gap: clamp(14px, 5vw, 22px);
 
     color: #6f5221;
 
-    font-size: 14px;
+    font-size: clamp(11px, 3.5vw, 14px);
     font-weight: 700;
 
     animation:
         dhikrSlideLeft 22s linear infinite;
 }
-
 
 .dhikr-separator {
     color: #b78a2c;
@@ -1457,14 +1462,14 @@ body {
 
 
 .mosque-logo {
-    width: 48px;
-    height: 48px;
+    width: clamp(42px, 12vw, 52px);
+    height: clamp(42px, 12vw, 52px);
 
     margin:
         0 auto
         4px;
 
-    border-radius: 14px;
+    border-radius: clamp(12px, 3.5vw, 15px);
 
     border:
         2px solid
@@ -1479,20 +1484,20 @@ body {
 .header h1 {
     margin-bottom: 1px;
 
-    font-size: 18px;
+    font-size: clamp(16px, 4.5vw, 19px);
     line-height: 1.2;
 }
 
 
 .subtitle {
-    font-size: 11px;
+    font-size: clamp(10px, 3vw, 12px);
     line-height: 1.2;
 }
 /* Compact current time */
 .current-time {
-    font-size: 30px !important;
+    font-size: clamp(26px, 8vw, 34px) !important;
     line-height: 1;
-    margin: 6px 0 !important;
+    margin: clamp(4px, 1.5dvh, 6px) 0 !important;
 }
 /* Compact but readable Dhikr reel */
 .dhikr-reel {
@@ -1515,20 +1520,16 @@ body {
 /* =========================================
    Compact bottom Adhkar buttons
    ========================================= */
-
-.adhkar-actions {
-    gap: 6px !important;
-    margin-top: 4px !important;
-}
-
 .adhkar-action-button {
-    min-height: 32px !important;
+    min-height: clamp(30px, 5dvh, 36px) !important;
 
-    padding: 4px 6px !important;
+    padding:
+        clamp(3px, 0.7dvh, 5px)
+        clamp(5px, 1.8vw, 7px) !important;
 
     border-radius: 10px !important;
 
-    font-size: 10px !important;
+    font-size: clamp(9px, 2.8vw, 11px) !important;
     line-height: 1.2 !important;
 }
 /* =========================================
@@ -1536,14 +1537,16 @@ body {
    ========================================= */
 
 .ad-section {
-    margin-top: 4px !important;
-    padding: 3px 8px !important;
+    margin-top: clamp(2px, 0.6dvh, 4px) !important;
 
-    min-height: 26px !important;
+    padding:
+        clamp(2px, 0.5dvh, 3px)
+        clamp(6px, 2vw, 8px) !important;
+
+    min-height: clamp(24px, 4dvh, 26px) !important;
 
     border-radius: 10px !important;
 }
-
 .ad-label {
     margin: 0 !important;
 
@@ -1556,4 +1559,89 @@ body {
 .ad-text,
 .ad-counter {
     display: none !important;
+}
+/* =========================================
+   Modern Add to Home Screen
+   ========================================= */
+
+.install-section {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: clamp(3px, 0.7dvh, 6px);
+
+    text-align: center;
+}
+
+.install-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    width: fit-content;
+    max-width: 92%;
+
+    min-height: clamp(30px, 5dvh, 36px);
+
+    padding:
+        clamp(4px, 0.8dvh, 6px)
+        clamp(10px, 3vw, 16px);
+
+    border:
+        1px solid
+        rgba(23, 54, 79, 0.16);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.90);
+
+    color: #17364f;
+
+    font-family: inherit;
+    font-size: clamp(10px, 2.9vw, 12px);
+    font-weight: 700;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 10px
+        rgba(23, 54, 79, 0.10);
+
+    cursor: pointer;
+}
+
+.install-home-icon {
+    font-size: clamp(13px, 3.5vw, 16px);
+    line-height: 1;
+}
+.ios-instructions {
+    width: min(92%, 420px);
+
+    margin-top: clamp(4px, 0.8dvh, 8px);
+    padding:
+        clamp(8px, 1.4dvh, 12px)
+        clamp(10px, 3vw, 14px);
+
+    text-align: center;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    color: #17364f;
+
+    font-size: clamp(10px, 2.9vw, 12px);
+    line-height: 1.6;
+
+    box-shadow:
+        0 3px 10px
+        rgba(23, 54, 79, 0.10);
 }

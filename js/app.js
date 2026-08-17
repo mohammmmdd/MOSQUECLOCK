@@ -3118,13 +3118,26 @@ document.addEventListener(
 
     }
 );
-
-
 async function installApp() {
 
     if (
         !deferredInstallPrompt
     ) {
+
+        const iosInstructions =
+            document.getElementById(
+                "iosInstructions"
+            );
+
+        if (
+            iosInstructions
+        ) {
+
+            iosInstructions.classList.remove(
+                "hidden"
+            );
+
+        }
 
         return;
 
@@ -3176,7 +3189,11 @@ function checkIOSDevice() {
         !==
         true
     ) {
-
+document.getElementById(
+    "installButton"
+).classList.remove(
+    "hidden"
+);
         document.getElementById(
             "iosInstructions"
         ).classList.remove(
