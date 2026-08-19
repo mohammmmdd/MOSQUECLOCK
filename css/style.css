@@ -10,18 +10,13 @@ html {
     direction: rtl;
 }
 
-
 html,
 body {
-    font-family:
-        Tahoma,
-        Arial,
-        "Segoe UI",
-        sans-serif;
-
-    background: #f7f3e8;
-
-    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 button,
 input,
@@ -39,7 +34,6 @@ button {
 .hidden {
     display: none !important;
 }
-
 .app-container {
     width: 100%;
     max-width: 620px;
@@ -875,11 +869,13 @@ footer {
 /* Phone View */
 body.phone-view .app-container {
     width: 100%;
-    max-width: 430px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 12px;
-    padding-right: 12px;
+    max-width: none;
+
+    margin-left: 0;
+    margin-right: 0;
+
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* PC View */
@@ -1073,11 +1069,14 @@ body.pc-view .app-container {
         font-size: 21px;
     }
 }
-
 html,
 body {
     width: 100%;
     height: 100%;
+
+    margin: 0;
+    padding: 0;
+
     overflow: hidden;
 }
 
@@ -1143,6 +1142,9 @@ body {
 /* =========================================
    Main Islamic full-screen frame
 ========================================= */
+/* =========================================
+   Main Islamic full-screen frame
+========================================= */
 .mosque-frame {
     position: relative;
 
@@ -1152,10 +1154,10 @@ body {
     display: flex;
     flex-direction: column;
 
-   padding:
-    clamp(8px, 1.8dvh, 14px)
-    clamp(8px, 3vw, 14px)
-    clamp(7px, 1.5dvh, 12px);
+    padding:
+        clamp(8px, 1.8dvh, 14px)
+        clamp(8px, 3vw, 14px)
+        clamp(7px, 1.5dvh, 12px);
 
     background:
         linear-gradient(
@@ -1181,6 +1183,8 @@ body {
 
     overflow: hidden;
 }
+
+
 /* =========================================
    Prayer table - premium mosque board style
 ========================================= */
@@ -1198,6 +1202,8 @@ body {
 
     gap: clamp(4px, 0.8dvh, 6px);
 }
+
+
 .prayer-table-header,
 .prayer-row {
     display: grid;
@@ -1209,6 +1215,8 @@ body {
 
     direction: ltr;
 }
+
+
 .prayer-table-header {
     padding:
         clamp(6px, 1.2dvh, 8px)
@@ -1230,6 +1238,8 @@ body {
 
     border: 1px solid #d7b45e;
 }
+
+
 .prayer-row {
     min-height: clamp(42px, 7dvh, 48px);
 
@@ -1644,4 +1654,133 @@ body {
     box-shadow:
         0 3px 10px
         rgba(23, 54, 79, 0.10);
+}
+/* =========================================
+   Iqama Alert - 5 Minutes Before Prayer
+========================================= */
+
+.iqama-alert {
+    position: fixed;
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100dvh;
+
+    padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+
+    background:
+        linear-gradient(
+            rgba(248, 243, 232, 0.96),
+            rgba(248, 243, 232, 0.96)
+        ),
+        url("../assets/islamic-frame-background.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+
+.iqama-alert.hidden {
+    display: none !important;
+}
+
+
+.iqama-alert-content {
+    width: min(92vw, 620px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    gap: clamp(12px, 2.2dvh, 22px);
+}
+
+
+.iqama-alert-title {
+    color: #547588;
+
+    font-size: clamp(68px, 19vw, 150px);
+    font-weight: 900;
+
+    line-height: 1;
+
+    animation:
+        iqamaSoftPulse 1.6s ease-in-out infinite;
+}
+
+
+.iqama-alert-prayer-name {
+    color: #f5ad55;
+
+    font-size: clamp(28px, 7vw, 54px);
+    font-weight: 800;
+}
+
+
+.iqama-alert-remaining-label {
+    margin-top: clamp(10px, 2dvh, 18px);
+
+    color: #7b5d24;
+
+    font-size: clamp(20px, 5vw, 32px);
+    font-weight: 700;
+}
+
+
+.iqama-alert-countdown {
+    min-width: min(86vw, 500px);
+
+    padding:
+        clamp(18px, 3dvh, 28px)
+        clamp(18px, 5vw, 36px);
+
+    background: #8b6a24;
+
+    color: #ffffff;
+
+    border-radius: 18px;
+
+    font-size: clamp(48px, 14vw, 100px);
+    font-weight: 900;
+
+    line-height: 1;
+
+    direction: ltr;
+
+    font-variant-numeric: tabular-nums;
+
+    box-shadow:
+        0 8px 24px rgba(80, 55, 15, 0.18);
+}
+
+
+@keyframes iqamaSoftPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.28;
+        transform: scale(0.985);
+    }
+
 }

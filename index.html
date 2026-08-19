@@ -223,9 +223,10 @@
             ✕
         </button>
 
-        <h2 class="adhkar-mosque-name">
-            جامع الصويرج
-        </h2>
+       <h2 id="adhkarMosqueName"
+    class="adhkar-mosque-name">
+    ساعة المسجد
+</h2>
 
         <img src="assets/adhkar-morning-evening.jpg"
              alt="أذكار الصباح والمساء"
@@ -395,7 +396,56 @@
 </div>
     </main>
 
+<!-- =========================================
+     تنبيه الإقامة قبل 5 دقائق
+========================================= -->
+<!-- =========================================
+     تنبيه الإقامة قبل 5 دقائق
+========================================= -->
 
+<div id="iqamaAlert"
+     class="iqama-alert hidden"
+     aria-live="polite">
+
+    <div class="iqama-alert-content">
+
+        <div class="iqama-alert-title">
+            إقامة الصلاة
+        </div>
+
+        <div id="iqamaAlertPrayerName"
+             class="iqama-alert-prayer-name">
+            الصلاة
+        </div>
+
+        <div class="iqama-alert-remaining-label">
+            الوقت المتبقي
+        </div>
+
+        <div id="iqamaAlertCountdown"
+             class="iqama-alert-countdown">
+            05:00
+        </div>
+
+        <!-- Faded no-phone sign -->
+        <div class="iqama-no-phone"
+             aria-hidden="true">
+
+            <div class="iqama-phone">
+                📱
+            </div>
+
+            <div class="iqama-no-phone-slash"></div>
+
+        </div>
+
+        <div class="iqama-no-phone-text">
+            فضلاً أغلق الهاتف أثناء الصلاة
+        </div>
+
+    </div>
+
+</div>
     <!-- الإعدادات -->
 
     <div id="settingsModal"
@@ -443,61 +493,132 @@
                 </label>
 
 
-                <label>
-                    الذكر - السطر الأول
-
-                    <input id="settingDhikrLine1"
-                           type="text"
-                           maxlength="120">
-                </label>
 
 
-                <label>
-                    الذكر - السطر الثاني
+              <div class="dhikr-settings-manager">
 
-                    <input id="settingDhikrLine2"
-                           type="text"
-                           maxlength="120">
-                </label>
+    <h4>
+        إعدادات شريط الأذكار المتحرك
+    </h4>
 
-
-                <label>
-                    تصحيح التاريخ الهجري
-
-                    <select id="settingHijriOffset">
-
-                        <option value="-2">
-                            -2 يوم
-                        </option>
-
-                        <option value="-1">
-                            -1 يوم
-                        </option>
-
-                        <option value="0">
-                            بدون تعديل
-                        </option>
-
-                        <option value="1">
-                            +1 يوم
-                        </option>
-
-                        <option value="2">
-                            +2 يوم
-                        </option>
-
-                    </select>
-
-                </label>
+    <p class="settings-help-text">
+        أضف أو احذف الأذكار التي تظهر في الشريط المتحرك.
+    </p>
 
 
-                <button id="saveGeneralSettingsButton"
-                        class="save-button"
-                        type="button">
+    <div id="dhikrItemsList"
+         class="dhikr-items-list">
 
-                    حفظ الإعدادات العامة
+        <div class="dhikr-setting-item">
 
-                </button>
+            <input
+                class="dhikr-setting-input"
+                type="text"
+                value="الحمد لله"
+                maxlength="120"
+            >
+
+            <button
+                class="delete-dhikr-button"
+                type="button"
+            >
+                حذف
+            </button>
+
+        </div>
+
+
+        <div class="dhikr-setting-item">
+
+            <input
+                class="dhikr-setting-input"
+                type="text"
+                value="الله أكبر"
+                maxlength="120"
+            >
+
+            <button
+                class="delete-dhikr-button"
+                type="button"
+            >
+                حذف
+            </button>
+
+        </div>
+
+
+        <div class="dhikr-setting-item">
+
+            <input
+                class="dhikr-setting-input"
+                type="text"
+                value="لا إله إلا الله"
+                maxlength="120"
+            >
+
+            <button
+                class="delete-dhikr-button"
+                type="button"
+            >
+                حذف
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="add-dhikr-row">
+
+        <input
+            id="newDhikrText"
+            type="text"
+            maxlength="120"
+            placeholder="اكتب ذكرًا جديدًا"
+        >
+
+        <button
+            id="addDhikrButton"
+            class="add-dhikr-button"
+            type="button"
+        >
+            + إضافة ذكر
+        </button>
+
+    </div>
+
+</div>
+
+
+<label>
+    تصحيح التاريخ الهجري
+
+    <select id="settingHijriOffset">
+
+        <option value="-2">
+            -2 يوم
+        </option>
+
+        <option value="-1">
+            -1 يوم
+        </option>
+
+        <option value="0">
+            بدون تعديل
+        </option>
+
+        <option value="1">
+            +1 يوم
+        </option>
+
+        <option value="2">
+            +2 يوم
+        </option>
+
+    </select>
+
+</label>
+
 
             </div>
 
@@ -570,13 +691,6 @@
                 </label>
 
 
-                <button id="saveLocationButton"
-                        class="save-button"
-                        type="button">
-
-                    حفظ إعدادات الموقع
-
-                </button>
 
 
                 <button id="updatePrayerTimesButton"
@@ -708,13 +822,7 @@
             </div>
 
 
-            <button id="saveSettingsButton"
-                    class="save-button"
-                    type="button">
-
-                حفظ المواقيت يدويًا
-
-            </button>
+            
 
 
             <button id="resetSettingsButton"
@@ -725,66 +833,14 @@
 
             </button>
 
+<button id="saveAllSettingsButton"
+        class="save-button save-all-button"
+        type="button">
 
-            <!-- الإعلانات -->
+    حفظ جميع التغييرات
 
-            <h3 class="settings-section-title">
-                الإعلانات
-            </h3>
-
-
-            <div class="ads-form">
-
-                <label>
-                    عنوان الإعلان
-
-                    <input id="newAdTitle"
-                           type="text"
-                           maxlength="100"
-                           placeholder="مثال: دورة القرآن الكريم">
-                </label>
-
-
-                <label>
-                    نص الإعلان
-
-                    <textarea id="newAdText"
-                              rows="4"
-                              maxlength="500"
-                              placeholder="اكتب الإعلان هنا"></textarea>
-                </label>
-
-
-                <label>
-                    تاريخ البداية
-
-                    <input id="newAdStartDate"
-                           type="date">
-                </label>
-
-
-                <label>
-                    تاريخ النهاية
-
-                    <input id="newAdEndDate"
-                           type="date">
-                </label>
-
-
-                <button id="addAdButton"
-                        class="add-ad-button"
-                        type="button">
-
-                    + إضافة إعلان
-
-                </button>
-
-            </div>
-
-
-            <div id="adsList"
-                 class="ads-list">
-            </div>
+</button>
+           
 
         </div>
 

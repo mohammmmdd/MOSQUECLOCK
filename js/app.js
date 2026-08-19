@@ -52,12 +52,11 @@ const defaultGeneralSettings = {
     mosqueSubtitle:
         "مواقيت الصلاة",
 
-    dhikrLine1:
-        "سُبْحَانَ اللهِ وَبِحَمْدِهِ",
-
-    dhikrLine2:
-        "سُبْحَانَ اللهِ الْعَظِيمِ",
-
+   dhikrItems: [
+    "الحمد لله",
+    "الله أكبر",
+    "لا إله إلا الله"
+],
     hijriOffset:
         0
 
@@ -205,9 +204,7 @@ document.getElementById(
 
     }
 );
-        renderAdsList();
 
-        showCurrentAd();
 
         updateLastUpdateDisplay();
 
@@ -216,12 +213,25 @@ document.getElementById(
             updateClock,
             1000
         );
+setInterval(
+    async function () {
 
+        const updated =
+            await loadSharedSettings();
 
-        setInterval(
-            rotateAds,
-            8000
-        );
+        if (updated) {
+
+            applyGeneralSettings();
+
+            applyLocationSettings();
+
+            loadPrayerTimes();
+
+        }
+
+    },
+    10000
+);
 
 
         if (
@@ -288,10 +298,11 @@ function saveGeneralSettings() {
     );
 
 }
-
-
 function applyGeneralSettings() {
-
+setText(
+    "adhkarMosqueName",
+    generalSettings.mosqueName
+);
     setText(
         "mosqueName",
         generalSettings.mosqueName
@@ -304,16 +315,74 @@ function applyGeneralSettings() {
     );
 
 
-    setText(
-        "dhikrLine1",
-        generalSettings.dhikrLine1s
-    );
+    const dhikrTrack =
+        document.querySelector(
+            ".dhikr-reel-track"
+        );
 
 
-    setText(
-        "dhikrLine2",
-        generalSettings.dhikrLine2
-    );
+    if (
+        dhikrTrack
+        &&
+        Array.isArray(
+            generalSettings.dhikrItems
+        )
+    ) {
+
+        dhikrTrack.innerHTML =
+            "";
+
+
+        generalSettings.dhikrItems.forEach(
+            function (
+                item,
+                index
+            ) {
+
+                const span =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                span.textContent =
+                    item;
+
+
+                dhikrTrack.appendChild(
+                    span
+                );
+
+
+                if (
+                    index <
+                    generalSettings.dhikrItems.length - 1
+                ) {
+
+                    const separator =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    separator.className =
+                        "dhikr-separator";
+
+
+                    separator.textContent =
+                        "•";
+
+
+                    dhikrTrack.appendChild(
+                        separator
+                    );
+
+                }
+
+            }
+        );
+
+    }
 
 
     document.title =
@@ -1211,6 +1280,8 @@ function updateClock() {
 
     updateNextPrayer(now);
 
+    updateIqamaAlert(now);
+
 }
 
 
@@ -1626,7 +1697,169 @@ function isValidTime(
 /* =========================================
    العد التنازلي
    ========================================= */
+function updateIqamaAlert(now) {
 
+    const alertElement =
+        document.getElementById(
+            "iqamaAlert"
+        );
+
+    const prayerNameElement =
+        document.getElementById(
+            "iqamaAlertPrayerName"
+        );
+
+    const countdownElement =
+        document.getElementById(
+            "iqamaAlertCountdown"
+        );
+
+
+    if (
+        !alertElement
+        ||
+        !prayerNameElement
+        ||
+        !countdownElement
+    ) {
+
+        return;
+
+    }
+
+
+    const prayers = [
+
+        prayerTimes.fajr,
+        prayerTimes.dhuhr,
+        prayerTimes.asr,
+        prayerTimes.maghrib,
+        prayerTimes.isha
+
+    ];
+
+
+    let activePrayer =
+        null;
+
+    let remainingSeconds =
+        null;
+
+
+    for (
+        const prayer
+        of prayers
+    ) {
+
+        if (
+            !isValidTime(
+                prayer.iqama
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        const iqamaDate =
+            getPrayerDate(
+                now,
+                prayer.iqama
+            );
+
+
+        const difference =
+            Math.floor(
+                (
+                    iqamaDate.getTime()
+                    -
+                    now.getTime()
+                )
+                /
+                1000
+            );
+
+
+        if (
+            difference >= 0
+            &&
+            difference <= 300
+        ) {
+
+            activePrayer =
+                prayer;
+
+            remainingSeconds =
+                difference;
+
+            break;
+
+        }
+
+    }
+
+
+    if (
+        !activePrayer
+        ||
+        remainingSeconds === null
+    ) {
+
+        alertElement.classList.add(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    alertElement.classList.remove(
+        "hidden"
+    );
+
+
+    prayerNameElement.textContent =
+        activePrayer.name;
+
+
+    const minutes =
+        Math.floor(
+            remainingSeconds
+            /
+            60
+        );
+
+
+    const seconds =
+        remainingSeconds
+        %
+        60;
+
+
+    countdownElement.textContent =
+        padNumber(
+            minutes
+        )
+        +
+        ":"
+        +
+        padNumber(
+            seconds
+        );
+
+
+    if (
+        remainingSeconds === 0
+    ) {
+
+        prayerNameElement.textContent =
+            "حان الآن وقت الإقامة";
+
+    }
+
+}
 function updateCountdown(
     now,
     prayerDate
@@ -1769,8 +2002,7 @@ async function updateSettingsButtonVisibility() {
     }
 
 }
-
-   function setupSettingsEvents() {
+function setupSettingsEvents() {
 
     document.getElementById(
         "settingsButton"
@@ -1788,21 +2020,118 @@ async function updateSettingsButtonVisibility() {
     );
 
 
+    /* =========================================
+       إضافة ذكر جديد
+       ========================================= */
+
     document.getElementById(
-        "saveGeneralSettingsButton"
+        "addDhikrButton"
     ).addEventListener(
         "click",
-        saveGeneralSettingsFromForm
+        function () {
+
+            const newDhikrInput =
+                document.getElementById(
+                    "newDhikrText"
+                );
+
+
+            const newDhikr =
+                newDhikrInput.value.trim();
+
+
+            if (!newDhikr) {
+
+                alert(
+                    "يرجى كتابة الذكر أولاً."
+                );
+
+                return;
+
+            }
+
+
+            const container =
+                document.getElementById(
+                    "dhikrItemsList"
+                );
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "dhikr-setting-item";
+
+
+            const input =
+                document.createElement(
+                    "input"
+                );
+
+            input.type =
+                "text";
+
+            input.maxLength =
+                120;
+
+            input.className =
+                "dhikr-setting-input";
+
+            input.value =
+                newDhikr;
+
+
+            const removeButton =
+                document.createElement(
+                    "button"
+                );
+
+            removeButton.type =
+                "button";
+
+            removeButton.className =
+                "delete-dhikr-button";
+
+            removeButton.textContent =
+                "حذف";
+
+
+            removeButton.addEventListener(
+                "click",
+                function () {
+
+                    row.remove();
+
+                }
+            );
+
+
+            row.append(
+                input,
+                removeButton
+            );
+
+
+            container.appendChild(
+                row
+            );
+
+
+            newDhikrInput.value =
+                "";
+
+            newDhikrInput.focus();
+
+        }
     );
 
 
-    document.getElementById(
-        "saveLocationButton"
-    ).addEventListener(
-        "click",
-        saveLocationSettingsFromForm
-    );
-
+    /* =========================================
+       تحديث مواقيت الأذان
+       ========================================= */
 
     document.getElementById(
         "updatePrayerTimesButton"
@@ -1818,13 +2147,70 @@ async function updateSettingsButtonVisibility() {
     );
 
 
+    /* =========================================
+       حفظ جميع التغييرات
+       ========================================= */
+
     document.getElementById(
-        "saveSettingsButton"
+        "saveAllSettingsButton"
     ).addEventListener(
         "click",
-        savePrayerSettingsFromForm
+        async function () {
+
+            try {
+
+                const generalSaved =
+                    saveGeneralSettingsFromForm();
+
+                if (!generalSaved) {
+                    return;
+                }
+
+
+                const locationSaved =
+                    saveLocationSettingsFromForm();
+
+                if (!locationSaved) {
+                    return;
+                }
+
+
+                const prayerSaved =
+                    savePrayerSettingsFromForm();
+
+                if (!prayerSaved) {
+                    return;
+                }
+
+
+                await saveSharedSettings();
+
+
+                alert(
+                    "تم حفظ جميع التغييرات."
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Save all settings failed:",
+                    error
+                );
+
+                alert(
+                    "تعذر حفظ جميع التغييرات."
+                );
+
+            }
+
+        }
     );
 
+
+    /* =========================================
+       استعادة المواقيت الافتراضية
+       ========================================= */
 
     document.getElementById(
         "resetSettingsButton"
@@ -1834,21 +2220,15 @@ async function updateSettingsButtonVisibility() {
     );
 
 
-    document.getElementById(
-        "addAdButton"
-    ).addEventListener(
-        "click",
-        addAd
-    );
-
+    /* =========================================
+       إغلاق الإعدادات عند الضغط خارج اللوحة
+       ========================================= */
 
     document.getElementById(
         "settingsModal"
     ).addEventListener(
         "click",
-        function (
-            event
-        ) {
+        function (event) {
 
             if (
                 event.target.id
@@ -1864,11 +2244,6 @@ async function updateSettingsButtonVisibility() {
     );
 
 }
-
-
-/* =========================================
-   فتح الإعدادات
-   ========================================= */
 
 async function openSettings() {
 
@@ -1917,17 +2292,7 @@ async function openSettings() {
         );
 
 
-        setInputValue(
-            "settingDhikrLine1",
-            generalSettings.dhikrLine1
-        );
-
-
-        setInputValue(
-            "settingDhikrLine2",
-            generalSettings.dhikrLine2
-        );
-
+renderDhikrSettingsList();
 
         setInputValue(
             "settingHijriOffset",
@@ -1973,7 +2338,7 @@ async function openSettings() {
 
         fillPrayerSettingsForm();
 
-        renderAdsList();
+
 
         updateLastUpdateDisplay();
 
@@ -2080,7 +2445,107 @@ function closeSettings() {
 /* =========================================
    حفظ الإعدادات العامة
    ========================================= */
+function renderDhikrSettingsList() {
 
+    const container =
+        document.getElementById(
+            "dhikrItemsList"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    const items =
+        Array.isArray(
+            generalSettings.dhikrItems
+        )
+        ?
+        generalSettings.dhikrItems
+        :
+        defaultGeneralSettings.dhikrItems;
+
+
+    items.forEach(
+        function (
+            item
+        ) {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "dhikr-setting-item";
+
+
+            const input =
+                document.createElement(
+                    "input"
+                );
+
+
+            input.type =
+                "text";
+
+            input.maxLength =
+                120;
+
+            input.className =
+                "dhikr-setting-input";
+
+            input.value =
+                item;
+
+
+            const removeButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            removeButton.type =
+                "button";
+
+            removeButton.className =
+                "delete-dhikr-button";
+
+            removeButton.textContent =
+                "حذف";
+
+
+            removeButton.addEventListener(
+                "click",
+                function () {
+
+                    row.remove();
+
+                }
+            );
+
+
+            row.append(
+                input,
+                removeButton
+            );
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
 function saveGeneralSettingsFromForm() {
 
     const mosqueName =
@@ -2097,7 +2562,46 @@ function saveGeneralSettingsFromForm() {
             "يرجى كتابة اسم المسجد."
         );
 
-        return;
+        return false;
+
+    }
+
+
+    const dhikrInputs =
+        document.querySelectorAll(
+            ".dhikr-setting-input"
+        );
+
+
+    const dhikrItems =
+        Array.from(
+            dhikrInputs
+        )
+        .map(
+            function (input) {
+
+                return input.value.trim();
+
+            }
+        )
+        .filter(
+            function (item) {
+
+                return item !== "";
+
+            }
+        );
+
+
+    if (
+        dhikrItems.length === 0
+    ) {
+
+        alert(
+            "يرجى إضافة ذكر واحد على الأقل."
+        );
+
+        return false;
 
     }
 
@@ -2114,21 +2618,8 @@ function saveGeneralSettingsFromForm() {
             ||
             "مواقيت الصلاة",
 
-        dhikrLine1:
-            getInputValue(
-                "settingDhikrLine1"
-            ).trim()
-            ||
-            defaultGeneralSettings
-                .dhikrLine1,
-
-        dhikrLine2:
-            getInputValue(
-                "settingDhikrLine2"
-            ).trim()
-            ||
-            defaultGeneralSettings
-                .dhikrLine2,
+        dhikrItems:
+            dhikrItems,
 
         hijriOffset:
             Number(
@@ -2146,14 +2637,9 @@ function saveGeneralSettingsFromForm() {
 
     updateClock();
 
-
-    alert(
-        "تم حفظ الإعدادات العامة."
-    );
+    return true;
 
 }
-
-
 /* =========================================
    حفظ الموقع
    ========================================= */
@@ -2177,9 +2663,7 @@ function saveLocationSettingsFromForm() {
 
 
     if (
-        !Number.isFinite(
-            latitude
-        )
+        !Number.isFinite(latitude)
         ||
         latitude < -90
         ||
@@ -2190,15 +2674,13 @@ function saveLocationSettingsFromForm() {
             "خط العرض غير صحيح."
         );
 
-        return;
+        return false;
 
     }
 
 
     if (
-        !Number.isFinite(
-            longitude
-        )
+        !Number.isFinite(longitude)
         ||
         longitude < -180
         ||
@@ -2209,7 +2691,7 @@ function saveLocationSettingsFromForm() {
             "خط الطول غير صحيح."
         );
 
-        return;
+        return false;
 
     }
 
@@ -2219,8 +2701,7 @@ function saveLocationSettingsFromForm() {
             "settingLocationName"
         ).trim()
         ||
-        defaultLocationSettings
-            .locationName;
+        defaultLocationSettings.locationName;
 
 
     locationSettings.latitude =
@@ -2245,11 +2726,6 @@ function saveLocationSettingsFromForm() {
         ).checked;
 
 
-    /*
-        عند تغيير الموقع نجبر التطبيق
-        على تحديث اليوم مرة أخرى.
-    */
-
     locationSettings.lastUpdateDate =
         "";
 
@@ -2258,18 +2734,12 @@ function saveLocationSettingsFromForm() {
 
     applyLocationSettings();
 
-
-    alert(
-        "تم حفظ إعدادات الموقع."
-    );
+    return true;
 
 }
-
-
 /* =========================================
    حفظ المواقيت يدويًا
    ========================================= */
-
 function savePrayerSettingsFromForm() {
 
     const newTimes = {
@@ -2349,9 +2819,7 @@ function savePrayerSettingsFromForm() {
 
     if (
         times.some(
-            function (
-                time
-            ) {
+            function (time) {
 
                 return !isValidTime(
                     time
@@ -2365,7 +2833,7 @@ function savePrayerSettingsFromForm() {
             "يرجى تحديد جميع المواقيت."
         );
 
-        return;
+        return false;
 
     }
 
@@ -2380,18 +2848,9 @@ function savePrayerSettingsFromForm() {
 
     updateClock();
 
-
-    alert(
-        "تم حفظ المواقيت يدويًا."
-    );
+    return true;
 
 }
-
-
-/* =========================================
-   استعادة الافتراضي
-   ========================================= */
-
 function resetPrayerSettings() {
 
     if (
@@ -2566,12 +3025,12 @@ await saveSharedSettings();
 
     clearAdForm();
 
-    renderAdsList();
+    
 
     currentAdIndex =
         0;
 
-    showCurrentAd();
+
 
 }
 
@@ -2682,358 +3141,6 @@ function getActiveAds() {
 
 }
 
-
-function showCurrentAd() {
-
-    const activeAds =
-        getActiveAds();
-
-
-    const section =
-        document.getElementById(
-            "adSection"
-        );
-
-
-    if (
-        activeAds.length === 0
-    ) {
-
-        section.classList.add(
-            "hidden"
-        );
-
-        return;
-
-    }
-
-
-    if (
-        currentAdIndex
-        >=
-        activeAds.length
-    ) {
-
-        currentAdIndex =
-            0;
-
-    }
-
-
-    const ad =
-        activeAds[
-            currentAdIndex
-        ];
-
-
-    setText(
-        "adTitle",
-        ad.title
-    );
-
-
-    setText(
-        "adText",
-        ad.text
-    );
-
-
-    setText(
-        "adCounter",
-
-        (
-            currentAdIndex
-            +
-            1
-        )
-        +
-        " من "
-        +
-        activeAds.length
-    );
-
-
-    section.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-function rotateAds() {
-
-    const activeAds =
-        getActiveAds();
-
-
-    if (
-        activeAds.length <= 1
-    ) {
-
-        showCurrentAd();
-
-        return;
-
-    }
-
-
-    const section =
-        document.getElementById(
-            "adSection"
-        );
-
-
-    section.classList.add(
-        "ad-slide-out"
-    );
-
-
-    setTimeout(
-        function () {
-
-            currentAdIndex++;
-
-
-            if (
-                currentAdIndex
-                >=
-                activeAds.length
-            ) {
-
-                currentAdIndex =
-                    0;
-
-            }
-
-
-            section.classList.remove(
-                "ad-slide-out"
-            );
-
-
-            section.classList.add(
-                "ad-slide-in"
-            );
-
-
-            showCurrentAd();
-
-
-            void section.offsetWidth;
-
-
-            section.classList.remove(
-                "ad-slide-in"
-            );
-
-        },
-        450
-    );
-
-}
-
-
-function renderAdsList() {
-
-    const container =
-        document.getElementById(
-            "adsList"
-        );
-
-
-    container.innerHTML =
-        "";
-
-
-    if (
-        ads.length === 0
-    ) {
-
-        container.textContent =
-            "لا توجد إعلانات مضافة.";
-
-        return;
-
-    }
-
-
-    ads.forEach(
-        function (
-            ad
-        ) {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "ad-item";
-
-
-            const title =
-                document.createElement(
-                    "h4"
-                );
-
-
-            title.textContent =
-                ad.title;
-
-
-            const text =
-                document.createElement(
-                    "p"
-                );
-
-
-            text.textContent =
-                ad.text;
-
-
-            const dates =
-                document.createElement(
-                    "div"
-                );
-
-
-            dates.className =
-                "ad-dates";
-
-
-            dates.textContent =
-                "الحالة: "
-                +
-                (
-                    ad.enabled
-                    ?
-                    "مفعل"
-                    :
-                    "متوقف"
-                );
-
-
-            const actions =
-                document.createElement(
-                    "div"
-                );
-
-
-            actions.className =
-                "ad-actions";
-
-
-            const toggle =
-                document.createElement(
-                    "button"
-                );
-
-
-            toggle.className =
-                "toggle-ad-button";
-
-
-            toggle.textContent =
-                ad.enabled
-                ?
-                "إيقاف الإعلان"
-                :
-                "تشغيل الإعلان";
-
-
-            toggle.onclick =
-    async function () {
-
-        ad.enabled =
-            !ad.enabled;
-
-        saveAds();
-        
-        await saveSharedSettings();
-
-                    renderAdsList();
-
-                    showCurrentAd();
-
-                };
-
-
-            const remove =
-                document.createElement(
-                    "button"
-                );
-
-
-            remove.className =
-                "delete-ad-button";
-
-
-            remove.textContent =
-                "حذف الإعلان";
-
-
-            remove.onclick =
-                async function () {
-
-                    if (
-                        !confirm(
-                            "هل تريد حذف الإعلان؟"
-                        )
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    ads =
-                        ads.filter(
-                            function (
-                                item
-                            ) {
-
-                                return item.id
-                                    !==
-                                    ad.id;
-
-                            }
-                        );
-
-
-                           saveAds();
-
-                         await saveSharedSettings();
-
-                         renderAdsList();
-
-                        showCurrentAd();
-
-                         };
-
-
-            actions.append(
-                toggle,
-                remove
-            );
-
-
-            item.append(
-                title,
-                text,
-                dates,
-                actions
-            );
-
-
-            container.appendChild(
-                item
-            );
-
-        }
-    );
-
-}
 /* =========================================
    الاتصال
    ========================================= */
