@@ -955,9 +955,7 @@ body.pc-view .app-container {
 
     background: rgba(0, 20, 40, 0.82);
     backdrop-filter: blur(6px);
-}
-
-.adhkar-modal-content {
+}.adhkar-modal-content {
     position: relative;
 
     width: 100%;
@@ -971,6 +969,8 @@ body.pc-view .app-container {
     border-radius: 24px;
 
     background: rgba(10, 55, 90, 0.96);
+
+    color: #ffffff;
 
     box-shadow:
         0 18px 50px
@@ -986,7 +986,6 @@ body.pc-view .app-container {
 
     font-size: 1.5rem;
 }
-
 .adhkar-image {
     display: block;
 
@@ -1783,4 +1782,17 @@ body {
         transform: scale(0.985);
     }
 
+}
+html,
+body,
+body ,
+button,
+input,
+select,
+textarea {
+    font-family: "Aref Ruqaa", serif !important;
+}
+.after-prayer-adhkar-content,
+.after-prayer-adhkar-content p {
+    color: #ffffff !important;
 }
