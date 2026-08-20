@@ -1796,3 +1796,6 @@ textarea {
 .after-prayer-adhkar-content p {
     color: #ffffff !important;
 }
+.prayer-name {
+    font-size: 25px !important;
+}
