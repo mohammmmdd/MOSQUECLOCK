@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&display=swap');
 * {
     box-sizing: border-box;
     margin: 0;
@@ -1797,5 +1797,5 @@ textarea {
     color: #ffffff !important;
 }
 .prayer-name {
-    font-size: 35px !important;
+    font-size: 25px !important;
 }
