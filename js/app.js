@@ -125,10 +125,75 @@ let deferredInstallPrompt =
    تشغيل التطبيق
    ========================================= */
 
+   async function registerAppVisit() {
+
+    try {
+
+        let visitorId =
+            localStorage.getItem(
+                "mosqueVisitorId"
+            );
+
+
+        if (!visitorId) {
+
+            visitorId =
+                crypto.randomUUID();
+
+            localStorage.setItem(
+                "mosqueVisitorId",
+                visitorId
+            );
+
+        }
+
+
+        const response =
+            await fetch(
+                "/api/stats",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            {
+                                visitorId:
+                                    visitorId
+                            }
+                        )
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Failed to register app visit."
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Visitor statistics error:",
+            error
+        );
+
+    }
+
+} 
+
 document.addEventListener(
     "DOMContentLoaded",
     async function () {
-
+registerAppVisit();
 await loadSharedSettings();
 
         applyGeneralSettings();
