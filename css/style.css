@@ -1831,3 +1831,7 @@ textarea {
 #hijriDate {
     font-family: "Noto Kufi Arabic", sans-serif !important;
 }
+.prayer-row[data-prayer-name="الشروق / الضحى"] .prayer-name {
+    font-size: 15px !important;
+    white-space: nowrap;
+}
