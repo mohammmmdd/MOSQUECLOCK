@@ -3106,6 +3106,34 @@ function savePrayerSettingsFromForm() {
     return true;
 
 }
+function resetPrayerSettings() {
+
+    if (
+        !confirm(
+            "هل تريد استعادة المواقيت الافتراضية؟"
+        )
+    ) {
+
+        return;
+
+    }
+
+    prayerTimes =
+        JSON.parse(
+            JSON.stringify(
+                defaultPrayerTimes
+            )
+        );
+
+    savePrayerTimes();
+
+    loadPrayerTimes();
+
+    updateClock();
+
+    fillPrayerSettingsForm();
+
+}
 /* =========================================
    الإعلانات
    ========================================= */
