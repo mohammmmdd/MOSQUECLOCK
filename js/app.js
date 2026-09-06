@@ -2601,14 +2601,12 @@ renderDhikrSettingsList();
 
 }
 
-
 function fillPrayerSettingsForm() {
 
     setInputValue(
         "settingFajrAdhan",
         prayerTimes.fajr.adhan
     );
-
 
     setInputValue(
         "settingFajrIqama",
@@ -2617,10 +2615,20 @@ function fillPrayerSettingsForm() {
 
 
     setInputValue(
+        "settingDuhaAdhan",
+        prayerTimes.duha.adhan
+    );
+
+    setInputValue(
+        "settingDuhaIqama",
+        prayerTimes.duha.iqama
+    );
+
+
+    setInputValue(
         "settingDhuhrAdhan",
         prayerTimes.dhuhr.adhan
     );
-
 
     setInputValue(
         "settingDhuhrIqama",
@@ -2633,7 +2641,6 @@ function fillPrayerSettingsForm() {
         prayerTimes.asr.adhan
     );
 
-
     setInputValue(
         "settingAsrIqama",
         prayerTimes.asr.iqama
@@ -2644,7 +2651,6 @@ function fillPrayerSettingsForm() {
         "settingMaghribAdhan",
         prayerTimes.maghrib.adhan
     );
-
 
     setInputValue(
         "settingMaghribIqama",
@@ -2657,14 +2663,12 @@ function fillPrayerSettingsForm() {
         prayerTimes.isha.adhan
     );
 
-
     setInputValue(
         "settingIshaIqama",
         prayerTimes.isha.iqama
     );
 
 }
-
 
 function closeSettings() {
 
@@ -2993,7 +2997,13 @@ function savePrayerSettingsFromForm() {
         },
 
         duha: {
-            ...prayerTimes.duha
+            name: "الشروق / الضحى",
+            adhan: getInputValue(
+                "settingDuhaAdhan"
+            ),
+            iqama: getInputValue(
+                "settingDuhaIqama"
+            )
         },
 
         dhuhr: {
@@ -3044,6 +3054,9 @@ function savePrayerSettingsFromForm() {
         newTimes.fajr.adhan,
         newTimes.fajr.iqama,
 
+        newTimes.duha.adhan,
+        newTimes.duha.iqama,
+
         newTimes.dhuhr.adhan,
         newTimes.dhuhr.iqama,
 
@@ -3091,39 +3104,6 @@ function savePrayerSettingsFromForm() {
     updateClock();
 
     return true;
-
-}
-
-   function resetPrayerSettings() {
-
-
-    if (
-        !confirm(
-            "هل تريد استعادة المواقيت الافتراضية؟"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    prayerTimes =
-        JSON.parse(
-            JSON.stringify(
-                defaultPrayerTimes
-            )
-        );
-
-
-    savePrayerTimes();
-
-    loadPrayerTimes();
-
-    updateClock();
-
-    fillPrayerSettingsForm();
-
 
 }
 /* =========================================
