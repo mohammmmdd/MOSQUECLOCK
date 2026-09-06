@@ -1,6 +1,4 @@
 "use strict";
-
-
 /* =========================================
    المواقيت الافتراضية
    ========================================= */
@@ -11,6 +9,12 @@ const defaultPrayerTimes = {
         name: "الفجر",
         adhan: "04:30",
         iqama: "04:50"
+    },
+
+    duha: {
+        name: "الشروق / الضحى",
+        adhan: "07:30",
+        iqama: "07:30"
     },
 
     dhuhr: {
@@ -38,8 +42,6 @@ const defaultPrayerTimes = {
     }
 
 };
-
-
 /* =========================================
    الإعدادات العامة
    ========================================= */
@@ -563,13 +565,46 @@ async function loadSharedSettings() {
 
         }
 
+if (sharedSettings.prayerTimes) {
 
-        if (sharedSettings.prayerTimes) {
+    const sharedPrayerTimes =
+        sharedSettings.prayerTimes;
 
-            prayerTimes =
-                sharedSettings.prayerTimes;
+    prayerTimes = {
 
+        fajr: {
+            ...defaultPrayerTimes.fajr,
+            ...sharedPrayerTimes.fajr
+        },
+
+        duha: {
+            ...defaultPrayerTimes.duha,
+            ...sharedPrayerTimes.duha
+        },
+
+        dhuhr: {
+            ...defaultPrayerTimes.dhuhr,
+            ...sharedPrayerTimes.dhuhr
+        },
+
+        asr: {
+            ...defaultPrayerTimes.asr,
+            ...sharedPrayerTimes.asr
+        },
+
+        maghrib: {
+            ...defaultPrayerTimes.maghrib,
+            ...sharedPrayerTimes.maghrib
+        },
+
+        isha: {
+            ...defaultPrayerTimes.isha,
+            ...sharedPrayerTimes.isha
         }
+
+    };
+
+}
 
 if (Array.isArray(sharedSettings.ads)) {
 
@@ -675,7 +710,6 @@ function applyLocationSettings() {
 
 }
 
-
 /* =========================================
    مواقيت الصلاة
    ========================================= */
@@ -710,6 +744,11 @@ function loadSavedPrayerTimes() {
             fajr: {
                 ...defaultPrayerTimes.fajr,
                 ...parsed.fajr
+            },
+
+            duha: {
+                ...defaultPrayerTimes.duha,
+                ...parsed.duha
             },
 
             dhuhr: {
@@ -758,7 +797,6 @@ function savePrayerTimes() {
     );
 
 }
-
 
 /* =========================================
    تحميل الأذان تلقائيًا
@@ -931,7 +969,10 @@ async function updateAutomaticPrayerTimes(
             cleanApiTime(
                 timings.Fajr
             );
-
+const duha =
+    cleanApiTime(
+        timings.Sunrise
+    );
 
         const dhuhr =
             cleanApiTime(
@@ -957,18 +998,19 @@ async function updateAutomaticPrayerTimes(
             );
 
 
-        if (
-            !fajr
-            ||
-            !dhuhr
-            ||
-            !asr
-            ||
-            !maghrib
-            ||
-            !isha
-        ) {
-
+       if (
+    !fajr
+    ||
+    !duha
+    ||
+    !dhuhr
+    ||
+    !asr
+    ||
+    !maghrib
+    ||
+    !isha
+) {
             throw new Error(
                 "بعض المواقيت غير متوفرة."
             );
@@ -983,13 +1025,19 @@ async function updateAutomaticPrayerTimes(
             يدويًا.
         */
 
-        prayerTimes.fajr.adhan =
-            fajr;
+      prayerTimes.fajr.adhan =
+    fajr;
 
 
-        prayerTimes.dhuhr.adhan =
-            dhuhr;
+prayerTimes.duha.adhan =
+    duha;
 
+prayerTimes.duha.iqama =
+    duha;
+
+
+prayerTimes.dhuhr.adhan =
+    dhuhr;
 
         prayerTimes.asr.adhan =
             asr;
@@ -1237,8 +1285,6 @@ function updateLastUpdateDisplay() {
     );
 
 }
-
-
 /* =========================================
    عرض مواقيت الصلاة
    ========================================= */
@@ -1262,6 +1308,22 @@ function loadPrayerTimes() {
 
 
     setText(
+        "duhaAdhan",
+        formatPrayerTime12Hour(
+            prayerTimes.duha.adhan
+        )
+    );
+
+
+    setText(
+        "duhaIqama",
+        formatPrayerTime12Hour(
+            prayerTimes.duha.iqama
+        )
+    );
+
+
+    setText(
         "dhuhrAdhan",
         formatPrayerTime12Hour(
             prayerTimes.dhuhr.adhan
@@ -1275,6 +1337,26 @@ function loadPrayerTimes() {
             prayerTimes.dhuhr.iqama
         )
     );
+
+
+    const dhuhrPrayerName =
+        document.getElementById(
+            "dhuhrPrayerName"
+        );
+
+    if (dhuhrPrayerName) {
+
+        const today =
+            new Date();
+
+        const isFriday =
+            today.getDay() === 5;
+
+        dhuhrPrayerName.textContent =
+            isFriday
+                ? "الجمعة"
+                : "الظهر";
+    }
 
 
     setText(
@@ -1325,7 +1407,6 @@ function loadPrayerTimes() {
     );
 
 }
-
 
 /* =========================================
    الساعة 12 ساعة
@@ -1566,7 +1647,6 @@ function updateHijriDate(
 
 }
 
-
 /* =========================================
    الصلاة القادمة
    ========================================= */
@@ -1668,31 +1748,46 @@ function updateNextPrayer(
     }
 
 
-    setText(
-        "nextPrayerName",
-        nextPrayer.name
-    );
-document
-    .querySelectorAll(".prayer-row")
-    .forEach((row) => {
-
-        row.classList.remove(
-            "next-prayer-active"
+    const nextPrayerDisplayName =
+        getPrayerDisplayName(
+            nextPrayer,
+            now
         );
 
-        if (
-            row.dataset.prayerName
-            ===
-            nextPrayer.name
-        ) {
 
-            row.classList.add(
-                "next-prayer-active"
-            );
+    setText(
+        "nextPrayerName",
+        nextPrayerDisplayName
+    );
 
-        }
 
-    });
+    document
+        .querySelectorAll(
+            ".prayer-row"
+        )
+        .forEach(
+            function (row) {
+
+                row.classList.remove(
+                    "next-prayer-active"
+                );
+
+
+                if (
+                    row.dataset.prayerName
+                    ===
+                    nextPrayer.name
+                ) {
+
+                    row.classList.add(
+                        "next-prayer-active"
+                    );
+
+                }
+
+            }
+        );
+
 
     setText(
         "nextPrayerTime",
@@ -1709,6 +1804,39 @@ document
 
 }
 
+
+/* =========================================
+   اسم الصلاة حسب اليوم
+   ========================================= */
+
+function getPrayerDisplayName(
+    prayer,
+    now
+) {
+
+    if (
+        prayer
+        ===
+        prayerTimes.dhuhr
+        &&
+        now.getDay()
+        ===
+        5
+    ) {
+
+        return "الجمعة";
+
+    }
+
+
+    return prayer.name;
+
+}
+
+
+/* =========================================
+   إنشاء وقت الصلاة
+   ========================================= */
 
 function getPrayerDate(
     baseDate,
@@ -1742,6 +1870,10 @@ function getPrayerDate(
 }
 
 
+/* =========================================
+   التحقق من صحة الوقت
+   ========================================= */
+
 function isValidTime(
     time
 ) {
@@ -1760,19 +1892,24 @@ function isValidTime(
 
 
 /* =========================================
-   العد التنازلي
+   تنبيه قرب وقت الإقامة
    ========================================= */
-function updateIqamaAlert(now) {
+
+function updateIqamaAlert(
+    now
+) {
 
     const alertElement =
         document.getElementById(
             "iqamaAlert"
         );
 
+
     const prayerNameElement =
         document.getElementById(
             "iqamaAlertPrayerName"
         );
+
 
     const countdownElement =
         document.getElementById(
@@ -1796,9 +1933,13 @@ function updateIqamaAlert(now) {
     const prayers = [
 
         prayerTimes.fajr,
+
         prayerTimes.dhuhr,
+
         prayerTimes.asr,
+
         prayerTimes.maghrib,
+
         prayerTimes.isha
 
     ];
@@ -1806,6 +1947,7 @@ function updateIqamaAlert(now) {
 
     let activePrayer =
         null;
+
 
     let remainingSeconds =
         null;
@@ -1855,8 +1997,10 @@ function updateIqamaAlert(now) {
             activePrayer =
                 prayer;
 
+
             remainingSeconds =
                 difference;
+
 
             break;
 
@@ -1868,12 +2012,15 @@ function updateIqamaAlert(now) {
     if (
         !activePrayer
         ||
-        remainingSeconds === null
+        remainingSeconds
+        ===
+        null
     ) {
 
         alertElement.classList.add(
             "hidden"
         );
+
 
         return;
 
@@ -1886,7 +2033,10 @@ function updateIqamaAlert(now) {
 
 
     prayerNameElement.textContent =
-        activePrayer.name;
+        getPrayerDisplayName(
+            activePrayer,
+            now
+        );
 
 
     const minutes =
@@ -1916,7 +2066,9 @@ function updateIqamaAlert(now) {
 
 
     if (
-        remainingSeconds === 0
+        remainingSeconds
+        ===
+        0
     ) {
 
         prayerNameElement.textContent =
@@ -1925,6 +2077,12 @@ function updateIqamaAlert(now) {
     }
 
 }
+
+
+/* =========================================
+   العد التنازلي للصلاة القادمة
+   ========================================= */
+
 function updateCountdown(
     now,
     prayerDate
@@ -1937,7 +2095,9 @@ function updateCountdown(
 
 
     if (
-        difference < 0
+        difference
+        <
+        0
     ) {
 
         difference =
@@ -1983,19 +2143,29 @@ function updateCountdown(
     setText(
         "countdown",
 
-        padNumber(hours)
+        padNumber(
+            hours
+        )
         +
         ":"
         +
-        padNumber(minutes)
+        padNumber(
+            minutes
+        )
         +
         ":"
         +
-        padNumber(seconds)
+        padNumber(
+            seconds
+        )
     );
 
 }
 
+
+/* =========================================
+   تنسيق الأرقام
+   ========================================= */
 
 function padNumber(
     number
@@ -2805,6 +2975,9 @@ function saveLocationSettingsFromForm() {
 /* =========================================
    حفظ المواقيت يدويًا
    ========================================= */
+/* =========================================
+   حفظ المواقيت يدويًا
+   ========================================= */
 function savePrayerSettingsFromForm() {
 
     const newTimes = {
@@ -2817,6 +2990,10 @@ function savePrayerSettingsFromForm() {
             iqama: getInputValue(
                 "settingFajrIqama"
             )
+        },
+
+        duha: {
+            ...prayerTimes.duha
         },
 
         dhuhr: {
@@ -2916,7 +3093,9 @@ function savePrayerSettingsFromForm() {
     return true;
 
 }
-function resetPrayerSettings() {
+
+   function resetPrayerSettings() {
+
 
     if (
         !confirm(
@@ -2944,6 +3123,7 @@ function resetPrayerSettings() {
     updateClock();
 
     fillPrayerSettingsForm();
+
 
 }
 /* =========================================

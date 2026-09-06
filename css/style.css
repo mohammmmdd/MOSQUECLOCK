@@ -1,11 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap');
+
+@font-face {
+    font-family: "InkBrushArabic";
+    src: url("../assets/fonts/InkBrushArabic_DEMO-Textured%20(1).otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
-
 html {
     direction: rtl;
 }
@@ -1169,16 +1177,11 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
 
-    border:
-        5px solid
-        #dcd1b9;
+   border: none;
 
-    border-radius: 28px;
+border-radius: 0;
 
-    box-shadow:
-        inset 0 0 0 2px #8dd9a5,
-        inset 0 0 30px rgba(120, 83, 22, 0.14),
-        0 6px 20px rgba(80, 60, 30, 0.10);
+box-shadow: none;
 
     overflow: hidden;
 }
@@ -1767,8 +1770,6 @@ body {
     box-shadow:
         0 8px 24px rgba(80, 55, 15, 0.18);
 }
-
-
 @keyframes iqamaSoftPulse {
 
     0%,
@@ -1783,18 +1784,20 @@ body {
     }
 
 }
+
+.after-prayer-adhkar-content p {
+    color: #ffffff !important;
+}
+
+.prayer-name {
+    font-size: 20px !important;
+}
+
 html,
 body,
 button,
 input,
 select,
 textarea {
-    font-family: "Scheherazade New", serif !important;
-}
-.after-prayer-adhkar-content,
-.after-prayer-adhkar-content p {
-    color: #ffffff !important;
-}
-.prayer-name {
-    font-size: 20px !important;
+    font-family: "InkBrushArabic", serif !important;
 }
