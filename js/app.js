@@ -1430,20 +1430,52 @@ function updateClock() {
 
 }
 /* =========================================
-   تحديث فوري عند الرجوع إلى التطبيق
+   معالجة الساعة عند إخفاء وعودة التطبيق
    ========================================= */
+
+function refreshClockImmediately() {
+
+    updateClock();
+
+    requestAnimationFrame(
+        function () {
+            updateClock();
+        }
+    );
+
+}
+
 
 document.addEventListener(
     "visibilitychange",
     function () {
 
         if (
-            document.visibilityState === "visible"
+            document.visibilityState === "hidden"
         ) {
 
-            updateClock();
+            setText(
+                "currentTime",
+                "--:--:--"
+            );
 
+            return;
         }
+
+        refreshClockImmediately();
+
+    }
+);
+
+
+window.addEventListener(
+    "pagehide",
+    function () {
+
+        setText(
+            "currentTime",
+            "--:--:--"
+        );
 
     }
 );
@@ -1451,21 +1483,12 @@ document.addEventListener(
 
 window.addEventListener(
     "pageshow",
-    function () {
-
-        updateClock();
-
-    }
+    refreshClockImmediately
 );
-
 
 window.addEventListener(
     "focus",
-    function () {
-
-        updateClock();
-
-    }
+    refreshClockImmediately
 );
 
 function updateTime(now) {
