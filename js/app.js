@@ -1429,7 +1429,44 @@ function updateClock() {
     updateIqamaAlert(now);
 
 }
+/* =========================================
+   تحديث فوري عند الرجوع إلى التطبيق
+   ========================================= */
 
+document.addEventListener(
+    "visibilitychange",
+    function () {
+
+        if (
+            document.visibilityState === "visible"
+        ) {
+
+            updateClock();
+
+        }
+
+    }
+);
+
+
+window.addEventListener(
+    "pageshow",
+    function () {
+
+        updateClock();
+
+    }
+);
+
+
+window.addEventListener(
+    "focus",
+    function () {
+
+        updateClock();
+
+    }
+);
 
 function updateTime(now) {
 
