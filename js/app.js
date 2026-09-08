@@ -693,82 +693,16 @@ function applyLocationSettings() {
         "locationDisplay",
         locationSettings.locationName
     );
-
 }
 
-/* =========================================
-   مواقيت الصلاة
-   ========================================= */
 
 function loadSavedPrayerTimes() {
 
-    const saved =
-        localStorage.getItem(
-            "mosquePrayerTimes"
-        );
-
-
-    if (!saved) {
-
-        return JSON.parse(
-            JSON.stringify(
-                defaultPrayerTimes
-            )
-        );
-
-    }
-
-
-    try {
-
-        const parsed =
-            JSON.parse(saved);
-
-
-        return {
-
-            fajr: {
-                ...defaultPrayerTimes.fajr,
-                ...parsed.fajr
-            },
-
-            duha: {
-                ...defaultPrayerTimes.duha,
-                ...parsed.duha
-            },
-
-            dhuhr: {
-                ...defaultPrayerTimes.dhuhr,
-                ...parsed.dhuhr
-            },
-
-            asr: {
-                ...defaultPrayerTimes.asr,
-                ...parsed.asr
-            },
-
-            maghrib: {
-                ...defaultPrayerTimes.maghrib,
-                ...parsed.maghrib
-            },
-
-            isha: {
-                ...defaultPrayerTimes.isha,
-                ...parsed.isha
-            }
-
-        };
-
-    }
-    catch (error) {
-
-        return JSON.parse(
-            JSON.stringify(
-                defaultPrayerTimes
-            )
-        );
-
-    }
+    return JSON.parse(
+        JSON.stringify(
+            defaultPrayerTimes
+        )
+    );
 
 }
 
