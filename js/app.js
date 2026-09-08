@@ -299,22 +299,8 @@ setInterval(
     },
     10000
 );
-
-
-        if (
-            locationSettings.autoPrayerTimes
-            &&
-            navigator.onLine
-        ) {
-
-            await updatePrayerTimesIfNeeded();
-
-        }
-
     }
 );
-
-
 /* =========================================
    الإعدادات العامة
    ========================================= */
